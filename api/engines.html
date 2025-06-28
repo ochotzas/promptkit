@@ -1,0 +1,1300 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engines API Reference &mdash; PromptKit 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CLI API Reference" href="cli.html" />
+    <link rel="prev" title="Core API Reference" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PromptKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#verify-installation">Verify Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#optional-dependencies">Optional Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#openai">OpenAI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#ollama">Ollama</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/quickstart.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/quickstart.html#your-first-prompt">Your First Prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#create-a-prompt-file">1. Create a Prompt File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#use-in-python">2. Use in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#use-the-cli">3. Use the CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/quickstart.html#key-concepts">Key Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#yaml-structure">YAML Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#template-variables">Template Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#input-validation">Input Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/quickstart.html#next-steps">Next Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/quickstart.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#multiple-engines">Multiple Engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/quickstart.html#batch-processing">Batch Processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/first-prompt.html">Creating Your First Prompt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#what-well-build">What We’ll Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#step-1-design-the-prompt">Step 1: Design the Prompt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#step-2-create-the-yaml-file">Step 2: Create the YAML File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#step-3-test-the-prompt">Step 3: Test the Prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#using-python">Using Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#using-the-cli">Using the CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#step-4-advanced-features">Step 4: Advanced Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#template-rendering-only">Template Rendering Only</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#validation-and-debugging">Validation and Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#step-5-iteration-and-improvement">Step 5: Iteration and Improvement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#version-2-enhanced-prompt">Version 2: Enhanced Prompt</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#clear-input-schema">1. Clear Input Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#default-values">2. Default Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#conditional-logic">3. Conditional Logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#error-handling">4. Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#multi-step-workflows">Multi-step Workflows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/first-prompt.html#dynamic-prompt-selection">Dynamic Prompt Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/first-prompt.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/advanced-templates.html">Advanced Template Techniques</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#conditional-logic">Conditional Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#loops-and-iteration">Loops and Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#template-filters">Template Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#template-inheritance">Template Inheritance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/advanced-templates.html#base-template-base-prompt-yaml">Base Template (base_prompt.yaml)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/advanced-templates.html#child-template-specialized-prompt-yaml">Child Template (specialized_prompt.yaml)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#macros-for-reusability">Macros for Reusability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#error-handling-in-templates">Error Handling in Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#custom-template-functions">Custom Template Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced-templates.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/advanced-templates.html#multi-language-support">Multi-language Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/advanced-templates.html#dynamic-validation">Dynamic Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/validation.html">Input Validation and Schema Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#basic-validation">Basic Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#simple-types">Simple Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#optional-fields">Optional Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#advanced-type-validation">Advanced Type Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#enum-validation">Enum Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#numeric-constraints">Numeric Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#string-constraints">String Constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#complex-object-validation">Complex Object Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#nested-objects">Nested Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#array-validation">Array Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#date-and-time-validation">Date and Time Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#custom-validators">Custom Validators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#using-pydantic-models-in-python">Using Pydantic Models in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#conditional-validation">Conditional Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#schema-variants">Schema Variants</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#validation-error-handling">Validation Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#custom-error-messages">Custom Error Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#validation-in-templates">Validation in Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#schema-composition-and-reuse">Schema Composition and Reuse</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#shared-schema-components">Shared Schema Components</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#testing-validation">Testing Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#unit-tests-for-schemas">Unit Tests for Schemas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/validation.html#common-validation-patterns">Common Validation Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#file-upload-validation">File Upload Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorials/validation.html#api-configuration-validation">API Configuration Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic.html">Basic Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#simple-text-generation">Simple Text Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#basic-greeting">Basic Greeting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#email-generator">Email Generator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#content-creation">Content Creation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#blog-post-outline">Blog Post Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#product-description">Product Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#question-answering">Question Answering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#faq-response">FAQ Response</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#data-processing">Data Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#report-summary">Report Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#educational-content">Educational Content</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#study-guide">Study Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#cli-usage-examples">CLI Usage Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#running-basic-examples">Running Basic Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#interactive-mode">Interactive Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#cost-estimation">Cost Estimation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#python-integration-examples">Python Integration Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#batch-processing">Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#error-handling">Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/advanced.html">Advanced Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#multi-step-workflow-system">Multi-Step Workflow System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#sequential-processing-pipeline">Sequential Processing Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#workflow-controller">Workflow Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#content-generation-system">Content Generation System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#dynamic-content-templates">Dynamic Content Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#ai-assistant-integration">AI Assistant Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#context-aware-assistant">Context-Aware Assistant</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#testing-and-quality-assurance">Testing and Quality Assurance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#automated-testing-framework">Automated Testing Framework</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#configuration-management">Configuration Management</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core.html">Core API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core.html#promptkit-core-prompt">promptkit.core.prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#prompt-class">Prompt Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#promptkit-core-loader">promptkit.core.loader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="core.html#promptregistry-class">PromptRegistry Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#promptkit-core-runner">promptkit.core.runner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#id1">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="core.html#promptrunner-class">PromptRunner Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#promptkit-core-template">promptkit.core.template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#templaterenderer-class">TemplateRenderer Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#promptkit-core-validation">promptkit.core.validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#validator-class">Validator Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="core.html#id2">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#promptkit-core-exceptions">promptkit.core.exceptions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#custom-exceptions">Custom Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#promptkit-core-utils">promptkit.core.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#type-definitions">Type Definitions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Engines API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#base-engine">Base Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#baseengine-class">BaseEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#openai-engine">OpenAI Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openaiengine-class">OpenAIEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#azure-openai-engine">Azure OpenAI Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#azureopenaiengine-class">AzureOpenAIEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#anthropic-engine">Anthropic Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#anthropicengine-class">AnthropicEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#local-engine">Local Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#localengine-class">LocalEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#huggingface-engine">HuggingFace Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#huggingfaceengine-class">HuggingFaceEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mock-engine">Mock Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mockengine-class">MockEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#engine-factory">Engine Factory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enginefactory-class">EngineFactory Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#engine-configuration">Engine Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#engine-utilities">Engine Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#installation-and-setup">Installation and Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#environment-configuration">Environment Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#main-command-promptkit">Main Command: <code class="docutils literal notranslate"><span class="pre">promptkit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#global-options">Global Options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#core-commands">Core Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#run-execute-prompts"><code class="docutils literal notranslate"><span class="pre">run</span></code> - Execute Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#list-list-available-prompts"><code class="docutils literal notranslate"><span class="pre">list</span></code> - List Available Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#validate-validate-prompts"><code class="docutils literal notranslate"><span class="pre">validate</span></code> - Validate Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#create-create-new-prompts"><code class="docutils literal notranslate"><span class="pre">create</span></code> - Create New Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#edit-edit-prompts"><code class="docutils literal notranslate"><span class="pre">edit</span></code> - Edit Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#test-test-prompts"><code class="docutils literal notranslate"><span class="pre">test</span></code> - Test Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#init-initialize-project"><code class="docutils literal notranslate"><span class="pre">init</span></code> - Initialize Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#engine-management">Engine Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#engine-engine-operations"><code class="docutils literal notranslate"><span class="pre">engine</span></code> - Engine Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#batch-operations">Batch Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#batch-batch-processing"><code class="docutils literal notranslate"><span class="pre">batch</span></code> - Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#batch-configuration-file">Batch Configuration File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#development-commands">Development Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#dev-development-tools"><code class="docutils literal notranslate"><span class="pre">dev</span></code> - Development Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#export-export-prompts"><code class="docutils literal notranslate"><span class="pre">export</span></code> - Export Prompts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#configuration-management">Configuration Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#config-configuration-operations"><code class="docutils literal notranslate"><span class="pre">config</span></code> - Configuration Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#configuration-file-format">Configuration File Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#shell-integration">Shell Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#shell-completion">Shell Completion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#aliases-and-functions">Aliases and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#output-formats">Output Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#json-output">JSON Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#yaml-output">YAML Output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#error-handling">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#exit-codes">Exit Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#common-error-messages">Common Error Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#advanced-usage">Advanced Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#pipeline-integration">Pipeline Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#custom-scripts">Custom Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#key-components">Key Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#prompts">1. Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#engines">2. Engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#runners">3. Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#loaders">4. Loaders</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#architecture-patterns">Architecture Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#separation-of-concerns">Separation of Concerns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-first-design">Template-First Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#type-safety">Type Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#workflow-patterns">Workflow Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#simple-execution">1. Simple Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-preview">2. Template Preview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#batch-processing">3. Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#pipeline-composition">4. Pipeline Composition</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#input-validation">Input Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#basic-types">Basic Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#optional-types">Optional Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#complex-types">Complex Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#custom-validation">Custom Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#template-engine-jinja2">Template Engine (Jinja2)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#conditionals">Conditionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#loops">Loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#filters">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#default-values">Default Values</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#error-handling">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#validation-errors">Validation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-errors">Template Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#engine-errors">Engine Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#organize-prompts-by-domain">1. Organize Prompts by Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#use-clear-naming">2. Use Clear Naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#design-for-reusability">3. Design for Reusability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#version-your-prompts">4. Version Your Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#test-thoroughly">5. Test Thoroughly</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#performance-considerations">Performance Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-compilation">Template Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#engine-reuse">Engine Reuse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#caching">Caching</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PromptKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Engines API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/engines.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="engines-api-reference">
+<h1>Engines API Reference<a class="headerlink" href="#engines-api-reference" title="Link to this heading"></a></h1>
+<p>Complete reference for PromptKit’s engine system and built-in engines.</p>
+<section id="base-engine">
+<h2>Base Engine<a class="headerlink" href="#base-engine" title="Link to this heading"></a></h2>
+<section id="baseengine-class">
+<h3>BaseEngine Class<a class="headerlink" href="#baseengine-class" title="Link to this heading"></a></h3>
+<p>Abstract base class that all engines must inherit from.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseEngine</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for all PromptKit engines.</span>
+
+<span class="sd">    Engines are responsible for executing prompts against specific</span>
+<span class="sd">    language models or services.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config: Engine-specific configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate response for the given prompt.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt text to process</span>
+<span class="sd">            **kwargs: Engine-specific parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EngineError: If generation fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">generate_async</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronously generate response for the given prompt.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt text to process</span>
+<span class="sd">            **kwargs: Engine-specific parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EngineError: If generation fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate streaming response for the given prompt.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt text to process</span>
+<span class="sd">            **kwargs: Engine-specific parameters</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Response chunks as they&#39;re generated</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EngineError: If generation fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Default implementation - subclasses can override</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">response</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate cost for processing the prompt.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt text</span>
+<span class="sd">            **kwargs: Engine-specific parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Estimated cost in USD</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># Default implementation</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_model_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about the current model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with model information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;supports_streaming&quot;</span><span class="p">:</span> <span class="kc">False</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate engine configuration.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if configuration is valid</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ConfigurationError: If configuration is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="openai-engine">
+<h2>OpenAI Engine<a class="headerlink" href="#openai-engine" title="Link to this heading"></a></h2>
+<section id="openaiengine-class">
+<h3>OpenAIEngine Class<a class="headerlink" href="#openaiengine-class" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.engines.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OpenAIEngine</span><span class="p">(</span><span class="n">BaseEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Engine for OpenAI GPT models.</span>
+
+<span class="sd">    Supports GPT-3.5, GPT-4, and other OpenAI models with</span>
+<span class="sd">    both completion and chat completion APIs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">,</span>
+        <span class="n">base_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">organization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span><span class="p">,</span>
+        <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize OpenAI engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            api_key: OpenAI API key</span>
+<span class="sd">            model: Model name (e.g., &#39;gpt-3.5-turbo&#39;, &#39;gpt-4&#39;)</span>
+<span class="sd">            base_url: Custom API base URL</span>
+<span class="sd">            organization: OpenAI organization ID</span>
+<span class="sd">            timeout: Request timeout in seconds</span>
+<span class="sd">            max_retries: Maximum number of retry attempts</span>
+<span class="sd">            **kwargs: Additional OpenAI client parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">base_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">organization</span> <span class="o">=</span> <span class="n">organization</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span> <span class="o">=</span> <span class="n">max_retries</span>
+
+        <span class="c1"># Initialize OpenAI client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_client</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">top_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">frequency_penalty</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">presence_penalty</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate response using OpenAI API.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt text</span>
+<span class="sd">            temperature: Sampling temperature (0.0 to 2.0)</span>
+<span class="sd">            max_tokens: Maximum tokens to generate</span>
+<span class="sd">            top_p: Nucleus sampling parameter</span>
+<span class="sd">            frequency_penalty: Frequency penalty (-2.0 to 2.0)</span>
+<span class="sd">            presence_penalty: Presence penalty (-2.0 to 2.0)</span>
+<span class="sd">            stop: Stop sequences</span>
+<span class="sd">            **kwargs: Additional model parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EngineError: If API call fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">generate_async</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Asynchronously generate response using OpenAI API.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt text</span>
+<span class="sd">            **kwargs: Model parameters (same as generate())</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate streaming response using OpenAI API.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt text</span>
+<span class="sd">            **kwargs: Model parameters (same as generate())</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Response chunks as they&#39;re generated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_chat</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate response using chat completion API.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            messages: List of message dictionaries with &#39;role&#39; and &#39;content&#39;</span>
+<span class="sd">            **kwargs: Model parameters (same as generate())</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate cost for the prompt.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt text</span>
+<span class="sd">            **kwargs: Model parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Estimated cost in USD</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_model_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get OpenAI model information.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with model details</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="s2">&quot;provider&quot;</span><span class="p">:</span> <span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_max_tokens</span><span class="p">(),</span>
+            <span class="s2">&quot;supports_streaming&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;supports_chat&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;cost_per_1k_tokens&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cost_info</span><span class="p">()</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate OpenAI configuration.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if configuration is valid</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ConfigurationError: If API key is missing or invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="azure-openai-engine">
+<h2>Azure OpenAI Engine<a class="headerlink" href="#azure-openai-engine" title="Link to this heading"></a></h2>
+<section id="azureopenaiengine-class">
+<h3>AzureOpenAIEngine Class<a class="headerlink" href="#azureopenaiengine-class" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AzureOpenAIEngine</span><span class="p">(</span><span class="n">BaseEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Engine for Azure OpenAI Service.</span>
+
+<span class="sd">    Supports Azure-hosted OpenAI models with custom endpoints</span>
+<span class="sd">    and authentication.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">deployment_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">api_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;2023-05-15&quot;</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize Azure OpenAI engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            api_key: Azure OpenAI API key</span>
+<span class="sd">            endpoint: Azure OpenAI endpoint URL</span>
+<span class="sd">            deployment_name: Deployment name in Azure</span>
+<span class="sd">            api_version: API version to use</span>
+<span class="sd">            timeout: Request timeout in seconds</span>
+<span class="sd">            **kwargs: Additional parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">endpoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deployment_name</span> <span class="o">=</span> <span class="n">deployment_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_version</span> <span class="o">=</span> <span class="n">api_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_azure_client</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Similar methods to OpenAIEngine but using Azure endpoints</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="anthropic-engine">
+<h2>Anthropic Engine<a class="headerlink" href="#anthropic-engine" title="Link to this heading"></a></h2>
+<section id="anthropicengine-class">
+<h3>AnthropicEngine Class<a class="headerlink" href="#anthropicengine-class" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AnthropicEngine</span><span class="p">(</span><span class="n">BaseEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Engine for Anthropic Claude models.</span>
+
+<span class="sd">    Supports Claude-1, Claude-2, and Claude-Instant models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;claude-2&quot;</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span><span class="p">,</span>
+        <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize Anthropic engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            api_key: Anthropic API key</span>
+<span class="sd">            model: Model name (e.g., &#39;claude-2&#39;, &#39;claude-instant-1&#39;)</span>
+<span class="sd">            timeout: Request timeout in seconds</span>
+<span class="sd">            max_retries: Maximum retry attempts</span>
+<span class="sd">            **kwargs: Additional parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span> <span class="o">=</span> <span class="n">max_retries</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_client</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">max_tokens_to_sample</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">top_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">stop_sequences</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate response using Anthropic API.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt text</span>
+<span class="sd">            max_tokens_to_sample: Maximum tokens to generate</span>
+<span class="sd">            temperature: Sampling temperature</span>
+<span class="sd">            top_p: Nucleus sampling parameter</span>
+<span class="sd">            top_k: Top-k sampling parameter</span>
+<span class="sd">            stop_sequences: Stop sequences</span>
+<span class="sd">            **kwargs: Additional model parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="local-engine">
+<h2>Local Engine<a class="headerlink" href="#local-engine" title="Link to this heading"></a></h2>
+<section id="localengine-class">
+<h3>LocalEngine Class<a class="headerlink" href="#localengine-class" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LocalEngine</span><span class="p">(</span><span class="n">BaseEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Engine for local/self-hosted models.</span>
+
+<span class="sd">    Supports models running locally via APIs like Ollama,</span>
+<span class="sd">    LocalAI, or custom endpoints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">api_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;openai&quot;</span><span class="p">,</span>  <span class="c1"># &quot;openai&quot;, &quot;ollama&quot;, &quot;custom&quot;</span>
+        <span class="n">auth_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize local engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            endpoint: Local model endpoint URL</span>
+<span class="sd">            model: Model name</span>
+<span class="sd">            api_format: API format to use</span>
+<span class="sd">            auth_token: Authentication token if required</span>
+<span class="sd">            timeout: Request timeout in seconds</span>
+<span class="sd">            **kwargs: Additional parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">endpoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_format</span> <span class="o">=</span> <span class="n">api_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_client</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate response using local model API.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt text</span>
+<span class="sd">            temperature: Sampling temperature</span>
+<span class="sd">            max_tokens: Maximum tokens to generate</span>
+<span class="sd">            **kwargs: Additional model parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="huggingface-engine">
+<h2>HuggingFace Engine<a class="headerlink" href="#huggingface-engine" title="Link to this heading"></a></h2>
+<section id="huggingfaceengine-class">
+<h3>HuggingFaceEngine Class<a class="headerlink" href="#huggingfaceengine-class" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">HuggingFaceEngine</span><span class="p">(</span><span class="n">BaseEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Engine for HuggingFace models.</span>
+
+<span class="sd">    Supports both Inference API and local transformers models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">api_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize HuggingFace engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model: HuggingFace model name</span>
+<span class="sd">            api_token: HuggingFace API token</span>
+<span class="sd">            use_local: Whether to load model locally</span>
+<span class="sd">            device: Device to use for local models</span>
+<span class="sd">            **kwargs: Additional parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">api_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_local</span> <span class="o">=</span> <span class="n">use_local</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+
+        <span class="k">if</span> <span class="n">use_local</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_local_model</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setup_api_client</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">do_sample</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate response using HuggingFace model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt text</span>
+<span class="sd">            max_length: Maximum sequence length</span>
+<span class="sd">            temperature: Sampling temperature</span>
+<span class="sd">            do_sample: Whether to use sampling</span>
+<span class="sd">            **kwargs: Additional generation parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generated response text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="mock-engine">
+<h2>Mock Engine<a class="headerlink" href="#mock-engine" title="Link to this heading"></a></h2>
+<section id="mockengine-class">
+<h3>MockEngine Class<a class="headerlink" href="#mockengine-class" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MockEngine</span><span class="p">(</span><span class="n">BaseEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mock engine for testing purposes.</span>
+
+<span class="sd">    Returns predefined responses or generates simple mock responses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">responses</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize mock engine.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            responses: List of predefined responses</span>
+<span class="sd">            delay: Artificial delay to simulate API calls</span>
+<span class="sd">            **kwargs: Additional parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">responses</span> <span class="o">=</span> <span class="n">responses</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;Mock response&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate mock response.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: Input prompt (logged but not used)</span>
+<span class="sd">            **kwargs: Ignored parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mock response</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">responses</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">call_count</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">responses</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set a single response for the next call.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            response: Response to return</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">responses</span> <span class="o">=</span> <span class="p">[</span><span class="n">response</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_responses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">responses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set multiple responses to cycle through.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            responses: List of responses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">responses</span> <span class="o">=</span> <span class="n">responses</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_count</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="engine-factory">
+<h2>Engine Factory<a class="headerlink" href="#engine-factory" title="Link to this heading"></a></h2>
+<section id="enginefactory-class">
+<h3>EngineFactory Class<a class="headerlink" href="#enginefactory-class" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">EngineFactory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory for creating engine instances.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_engine</span><span class="p">(</span>
+        <span class="n">engine_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseEngine</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an engine instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            engine_type: Type of engine (&#39;openai&#39;, &#39;anthropic&#39;, etc.)</span>
+<span class="sd">            config: Engine configuration</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Engine instance</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If engine type is not supported</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">engines</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;openai&#39;</span><span class="p">:</span> <span class="n">OpenAIEngine</span><span class="p">,</span>
+            <span class="s1">&#39;azure_openai&#39;</span><span class="p">:</span> <span class="n">AzureOpenAIEngine</span><span class="p">,</span>
+            <span class="s1">&#39;anthropic&#39;</span><span class="p">:</span> <span class="n">AnthropicEngine</span><span class="p">,</span>
+            <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="n">LocalEngine</span><span class="p">,</span>
+            <span class="s1">&#39;huggingface&#39;</span><span class="p">:</span> <span class="n">HuggingFaceEngine</span><span class="p">,</span>
+            <span class="s1">&#39;mock&#39;</span><span class="p">:</span> <span class="n">MockEngine</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">engine_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">engines</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported engine type: </span><span class="si">{</span><span class="n">engine_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">engines</span><span class="p">[</span><span class="n">engine_type</span><span class="p">](</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_engines</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List available engine types.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of engine type names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;openai&#39;</span><span class="p">,</span> <span class="s1">&#39;azure_openai&#39;</span><span class="p">,</span> <span class="s1">&#39;anthropic&#39;</span><span class="p">,</span> <span class="s1">&#39;local&#39;</span><span class="p">,</span> <span class="s1">&#39;huggingface&#39;</span><span class="p">,</span> <span class="s1">&#39;mock&#39;</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_engine</span><span class="p">(</span><span class="n">engine_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseEngine</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function to create an engine.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        engine_type: Type of engine</span>
+<span class="sd">        **config: Engine configuration as keyword arguments</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Engine instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">EngineFactory</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">engine_type</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="engine-configuration">
+<h2>Engine Configuration<a class="headerlink" href="#engine-configuration" title="Link to this heading"></a></h2>
+<section id="configuration-examples">
+<h3>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># OpenAI Configuration</span>
+<span class="n">openai_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;sk-...&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+    <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">}</span>
+
+<span class="c1"># Azure OpenAI Configuration</span>
+<span class="n">azure_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;your-azure-key&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;endpoint&quot;</span><span class="p">:</span> <span class="s2">&quot;https://your-resource.openai.azure.com/&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;deployment_name&quot;</span><span class="p">:</span> <span class="s2">&quot;your-deployment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;api_version&quot;</span><span class="p">:</span> <span class="s2">&quot;2023-05-15&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Anthropic Configuration</span>
+<span class="n">anthropic_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="s2">&quot;your-anthropic-key&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;claude-2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;max_tokens_to_sample&quot;</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">}</span>
+
+<span class="c1"># Local Model Configuration</span>
+<span class="n">local_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;endpoint&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost:11434&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;llama2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;api_format&quot;</span><span class="p">:</span> <span class="s2">&quot;ollama&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Create engines</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.engines</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="n">openai_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">openai_config</span><span class="p">)</span>
+<span class="n">azure_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">&quot;azure_openai&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">azure_config</span><span class="p">)</span>
+<span class="n">claude_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">&quot;anthropic&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">anthropic_config</span><span class="p">)</span>
+<span class="n">local_engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">local_config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="engine-utilities">
+<h2>Engine Utilities<a class="headerlink" href="#engine-utilities" title="Link to this heading"></a></h2>
+<section id="utility-functions">
+<h3>Utility Functions<a class="headerlink" href="#utility-functions" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compare_engines</span><span class="p">(</span>
+    <span class="n">engines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseEngine</span><span class="p">],</span>
+    <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">input_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare responses from multiple engines.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        engines: List of engines to compare</span>
+<span class="sd">        prompt: Prompt to test</span>
+<span class="sd">        input_data: Input data for the prompt</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping engine names to responses</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">benchmark_engine</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="n">BaseEngine</span><span class="p">,</span>
+    <span class="n">prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Benchmark engine performance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        engine: Engine to benchmark</span>
+<span class="sd">        prompts: List of test prompts</span>
+<span class="sd">        iterations: Number of iterations per prompt</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Performance metrics</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_batch_cost</span><span class="p">(</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="n">BaseEngine</span><span class="p">,</span>
+    <span class="n">prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate cost for batch processing.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        engine: Engine to use</span>
+<span class="sd">        prompts: List of prompts to process</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated total cost</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>This reference covers all the engines and engine-related functionality in PromptKit. Each engine provides the same interface while supporting provider-specific features and optimizations.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="core.html" class="btn btn-neutral float-left" title="Core API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="CLI API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Olger Chotza.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

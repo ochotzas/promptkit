@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core Concepts &mdash; PromptKit 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="CLI API Reference" href="api/cli.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PromptKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verify-installation">Verify Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#optional-dependencies">Optional Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#openai">OpenAI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#ollama">Ollama</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/quickstart.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/quickstart.html#your-first-prompt">Your First Prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#create-a-prompt-file">1. Create a Prompt File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#use-in-python">2. Use in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#use-the-cli">3. Use the CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/quickstart.html#key-concepts">Key Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#yaml-structure">YAML Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#template-variables">Template Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#input-validation">Input Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/quickstart.html#next-steps">Next Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/quickstart.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#multiple-engines">Multiple Engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/quickstart.html#batch-processing">Batch Processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/first-prompt.html">Creating Your First Prompt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#what-well-build">What We’ll Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#step-1-design-the-prompt">Step 1: Design the Prompt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#step-2-create-the-yaml-file">Step 2: Create the YAML File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#step-3-test-the-prompt">Step 3: Test the Prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#using-python">Using Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#using-the-cli">Using the CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#step-4-advanced-features">Step 4: Advanced Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#template-rendering-only">Template Rendering Only</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#validation-and-debugging">Validation and Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#step-5-iteration-and-improvement">Step 5: Iteration and Improvement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#version-2-enhanced-prompt">Version 2: Enhanced Prompt</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#clear-input-schema">1. Clear Input Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#default-values">2. Default Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#conditional-logic">3. Conditional Logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#error-handling">4. Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#multi-step-workflows">Multi-step Workflows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/first-prompt.html#dynamic-prompt-selection">Dynamic Prompt Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/first-prompt.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/advanced-templates.html">Advanced Template Techniques</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#conditional-logic">Conditional Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#loops-and-iteration">Loops and Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#template-filters">Template Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#template-inheritance">Template Inheritance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/advanced-templates.html#base-template-base-prompt-yaml">Base Template (base_prompt.yaml)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/advanced-templates.html#child-template-specialized-prompt-yaml">Child Template (specialized_prompt.yaml)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#macros-for-reusability">Macros for Reusability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#error-handling-in-templates">Error Handling in Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#custom-template-functions">Custom Template Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/advanced-templates.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/advanced-templates.html#multi-language-support">Multi-language Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/advanced-templates.html#dynamic-validation">Dynamic Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/validation.html">Input Validation and Schema Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#basic-validation">Basic Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#simple-types">Simple Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#optional-fields">Optional Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#advanced-type-validation">Advanced Type Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#enum-validation">Enum Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#numeric-constraints">Numeric Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#string-constraints">String Constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#complex-object-validation">Complex Object Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#nested-objects">Nested Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#array-validation">Array Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#date-and-time-validation">Date and Time Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#custom-validators">Custom Validators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#using-pydantic-models-in-python">Using Pydantic Models in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#conditional-validation">Conditional Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#schema-variants">Schema Variants</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#validation-error-handling">Validation Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#custom-error-messages">Custom Error Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#validation-in-templates">Validation in Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#schema-composition-and-reuse">Schema Composition and Reuse</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#shared-schema-components">Shared Schema Components</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#testing-validation">Testing Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#unit-tests-for-schemas">Unit Tests for Schemas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/validation.html#common-validation-patterns">Common Validation Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#file-upload-validation">File Upload Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/validation.html#api-configuration-validation">API Configuration Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/basic.html">Basic Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#simple-text-generation">Simple Text Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#basic-greeting">Basic Greeting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#email-generator">Email Generator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#content-creation">Content Creation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#blog-post-outline">Blog Post Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#product-description">Product Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#question-answering">Question Answering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#faq-response">FAQ Response</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#data-processing">Data Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#report-summary">Report Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#educational-content">Educational Content</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#study-guide">Study Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#cli-usage-examples">CLI Usage Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#running-basic-examples">Running Basic Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#interactive-mode">Interactive Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#cost-estimation">Cost Estimation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#python-integration-examples">Python Integration Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#batch-processing">Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/basic.html#error-handling">Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/basic.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/advanced.html">Advanced Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced.html#multi-step-workflow-system">Multi-Step Workflow System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/advanced.html#sequential-processing-pipeline">Sequential Processing Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/advanced.html#workflow-controller">Workflow Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced.html#content-generation-system">Content Generation System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/advanced.html#dynamic-content-templates">Dynamic Content Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced.html#ai-assistant-integration">AI Assistant Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/advanced.html#context-aware-assistant">Context-Aware Assistant</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced.html#testing-and-quality-assurance">Testing and Quality Assurance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/advanced.html#automated-testing-framework">Automated Testing Framework</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/advanced.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/advanced.html#configuration-management">Configuration Management</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/core.html">Core API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#promptkit-core-prompt">promptkit.core.prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#prompt-class">Prompt Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#promptkit-core-loader">promptkit.core.loader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#promptregistry-class">PromptRegistry Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#promptkit-core-runner">promptkit.core.runner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#id1">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#promptrunner-class">PromptRunner Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#promptkit-core-template">promptkit.core.template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#templaterenderer-class">TemplateRenderer Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#promptkit-core-validation">promptkit.core.validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#validator-class">Validator Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#id2">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#promptkit-core-exceptions">promptkit.core.exceptions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#custom-exceptions">Custom Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#promptkit-core-utils">promptkit.core.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/core.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#type-definitions">Type Definitions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/engines.html">Engines API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#base-engine">Base Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#baseengine-class">BaseEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#openai-engine">OpenAI Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#openaiengine-class">OpenAIEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#azure-openai-engine">Azure OpenAI Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#azureopenaiengine-class">AzureOpenAIEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#anthropic-engine">Anthropic Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#anthropicengine-class">AnthropicEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#local-engine">Local Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#localengine-class">LocalEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#huggingface-engine">HuggingFace Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#huggingfaceengine-class">HuggingFaceEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#mock-engine">Mock Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#mockengine-class">MockEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#engine-factory">Engine Factory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#enginefactory-class">EngineFactory Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#engine-configuration">Engine Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/engines.html#engine-utilities">Engine Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/engines.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/cli.html">CLI API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#installation-and-setup">Installation and Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#environment-configuration">Environment Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#main-command-promptkit">Main Command: <code class="docutils literal notranslate"><span class="pre">promptkit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#global-options">Global Options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#core-commands">Core Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#run-execute-prompts"><code class="docutils literal notranslate"><span class="pre">run</span></code> - Execute Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#list-list-available-prompts"><code class="docutils literal notranslate"><span class="pre">list</span></code> - List Available Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#validate-validate-prompts"><code class="docutils literal notranslate"><span class="pre">validate</span></code> - Validate Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#create-create-new-prompts"><code class="docutils literal notranslate"><span class="pre">create</span></code> - Create New Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#edit-edit-prompts"><code class="docutils literal notranslate"><span class="pre">edit</span></code> - Edit Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#test-test-prompts"><code class="docutils literal notranslate"><span class="pre">test</span></code> - Test Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#init-initialize-project"><code class="docutils literal notranslate"><span class="pre">init</span></code> - Initialize Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#engine-management">Engine Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#engine-engine-operations"><code class="docutils literal notranslate"><span class="pre">engine</span></code> - Engine Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#batch-operations">Batch Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#batch-batch-processing"><code class="docutils literal notranslate"><span class="pre">batch</span></code> - Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#batch-configuration-file">Batch Configuration File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#development-commands">Development Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#dev-development-tools"><code class="docutils literal notranslate"><span class="pre">dev</span></code> - Development Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#export-export-prompts"><code class="docutils literal notranslate"><span class="pre">export</span></code> - Export Prompts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#configuration-management">Configuration Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#config-configuration-operations"><code class="docutils literal notranslate"><span class="pre">config</span></code> - Configuration Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#configuration-file-format">Configuration File Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#shell-integration">Shell Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#shell-completion">Shell Completion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#aliases-and-functions">Aliases and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#output-formats">Output Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#json-output">JSON Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#yaml-output">YAML Output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#error-handling">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#exit-codes">Exit Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#common-error-messages">Common Error Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/cli.html#advanced-usage">Advanced Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#pipeline-integration">Pipeline Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/cli.html#custom-scripts">Custom Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-components">Key Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prompts">1. Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#engines">2. Engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runners">3. Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loaders">4. Loaders</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#architecture-patterns">Architecture Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#separation-of-concerns">Separation of Concerns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#template-first-design">Template-First Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#type-safety">Type Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#workflow-patterns">Workflow Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simple-execution">1. Simple Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#template-preview">2. Template Preview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batch-processing">3. Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline-composition">4. Pipeline Composition</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#input-validation">Input Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-types">Basic Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-types">Optional Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#complex-types">Complex Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-validation">Custom Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#template-engine-jinja2">Template Engine (Jinja2)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditionals">Conditionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loops">Loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filters">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#default-values">Default Values</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#error-handling">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#validation-errors">Validation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#template-errors">Template Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#engine-errors">Engine Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#organize-prompts-by-domain">1. Organize Prompts by Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-clear-naming">2. Use Clear Naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-for-reusability">3. Design for Reusability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#version-your-prompts">4. Version Your Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-thoroughly">5. Test Thoroughly</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-considerations">Performance Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#template-compilation">Template Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#engine-reuse">Engine Reuse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#caching">Caching</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PromptKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Core Concepts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/concepts.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="core-concepts">
+<h1>Core Concepts<a class="headerlink" href="#core-concepts" title="Link to this heading"></a></h1>
+<p>This guide explains the fundamental concepts and architecture of PromptKit, helping you understand how to build robust prompt-driven applications.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>PromptKit is built around the idea of <strong>structured prompt engineering</strong> - treating prompts as first-class artifacts with clear schemas, validation, and reusability. Instead of hardcoding prompts in your application, you define them in YAML files with proper structure and type safety.</p>
+</section>
+<section id="key-components">
+<h2>Key Components<a class="headerlink" href="#key-components" title="Link to this heading"></a></h2>
+<section id="prompts">
+<h3>1. Prompts<a class="headerlink" href="#prompts" title="Link to this heading"></a></h3>
+<p>A <strong>Prompt</strong> is the core abstraction in PromptKit. It consists of:</p>
+<ul class="simple">
+<li><p><strong>Template</strong>: Jinja2 template with dynamic variables</p></li>
+<li><p><strong>Schema</strong>: Type definitions for input validation</p></li>
+<li><p><strong>Metadata</strong>: Name, description, and other properties</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.core.prompt</span><span class="w"> </span><span class="kn">import</span> <span class="n">Prompt</span>
+
+<span class="c1"># Prompts are typically loaded from YAML files</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;my_prompt.yaml&quot;</span><span class="p">)</span>
+
+<span class="c1"># But can also be created programmatically</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">Prompt</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;greeting&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Personal greeting&quot;</span><span class="p">,</span>
+    <span class="n">template</span><span class="o">=</span><span class="s2">&quot;Hello {{ name }}!&quot;</span><span class="p">,</span>
+    <span class="n">input_schema</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;str&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="engines">
+<h3>2. Engines<a class="headerlink" href="#engines" title="Link to this heading"></a></h3>
+<p><strong>Engines</strong> provide a unified interface to different LLM providers:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.engines.openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEngine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.engines.ollama</span><span class="w"> </span><span class="kn">import</span> <span class="n">OllamaEngine</span>
+
+<span class="c1"># Cloud-based</span>
+<span class="n">openai_engine</span> <span class="o">=</span> <span class="n">OpenAIEngine</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;sk-...&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">)</span>
+
+<span class="c1"># Local</span>
+<span class="n">ollama_engine</span> <span class="o">=</span> <span class="n">OllamaEngine</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;llama2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>All engines implement the same interface, making it easy to switch between providers.</p>
+</section>
+<section id="runners">
+<h3>3. Runners<a class="headerlink" href="#runners" title="Link to this heading"></a></h3>
+<p><strong>Runners</strong> execute prompts with engines and handle the complete lifecycle:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.core.runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_prompt</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span>
+    <span class="n">prompt</span><span class="o">=</span><span class="n">my_prompt</span><span class="p">,</span>
+    <span class="n">variables</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">},</span>
+    <span class="n">engine</span><span class="o">=</span><span class="n">my_engine</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="loaders">
+<h3>4. Loaders<a class="headerlink" href="#loaders" title="Link to this heading"></a></h3>
+<p><strong>Loaders</strong> handle reading prompts from various sources:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.core.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_prompt</span>
+
+<span class="c1"># Load from file (extension optional)</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;greeting.yaml&quot;</span><span class="p">)</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;greeting&quot;</span><span class="p">)</span>  <span class="c1"># Same as above</span>
+
+<span class="c1"># Load from string</span>
+<span class="n">yaml_content</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">name: test</span>
+<span class="s2">template: Hello {{ name }}</span>
+<span class="s2">input_schema:</span>
+<span class="s2">  name: str</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt_from_string</span><span class="p">(</span><span class="n">yaml_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="architecture-patterns">
+<h2>Architecture Patterns<a class="headerlink" href="#architecture-patterns" title="Link to this heading"></a></h2>
+<section id="separation-of-concerns">
+<h3>Separation of Concerns<a class="headerlink" href="#separation-of-concerns" title="Link to this heading"></a></h3>
+<p>PromptKit enforces clear separation between:</p>
+<ol class="arabic simple">
+<li><p><strong>Prompt Definition</strong> (YAML files)</p></li>
+<li><p><strong>Application Logic</strong> (Python code)</p></li>
+<li><p><strong>Engine Configuration</strong> (runtime settings)</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Application Code    ←→    Prompt Files    ←→    LLM Engines
+     (Logic)              (Templates)           (Execution)
+</pre></div>
+</div>
+</section>
+<section id="template-first-design">
+<h3>Template-First Design<a class="headerlink" href="#template-first-design" title="Link to this heading"></a></h3>
+<p>Templates are the primary interface. Your application logic doesn’t need to know about specific LLM APIs or prompt formatting - it just provides data to templates.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Application provides data</span>
+<span class="n">user_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;preferences&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;coffee&quot;</span><span class="p">,</span> <span class="s2">&quot;books&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="s2">&quot;birthday planning&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Template handles formatting</span>
+<span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Create a personalized message for {{ name }}.</span>
+<span class="s2">Interests: {{ preferences | join(&quot;, &quot;) }}</span>
+<span class="s2">Context: {{ context }}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="type-safety">
+<h3>Type Safety<a class="headerlink" href="#type-safety" title="Link to this heading"></a></h3>
+<p>All inputs are validated against schemas before template rendering:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">user_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span><span class="w">                    </span><span class="c1"># Required string</span>
+<span class="w">  </span><span class="nt">age</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span><span class="w">                        </span><span class="c1"># Required integer</span>
+<span class="w">  </span><span class="nt">preferences</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;list[str]</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">None&quot;</span><span class="w"> </span><span class="c1"># Optional list of strings</span>
+<span class="w">  </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dict[str,</span><span class="nv"> </span><span class="s">Any]&quot;</span><span class="w">      </span><span class="c1"># Dictionary with any values</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="workflow-patterns">
+<h2>Workflow Patterns<a class="headerlink" href="#workflow-patterns" title="Link to this heading"></a></h2>
+<section id="simple-execution">
+<h3>1. Simple Execution<a class="headerlink" href="#simple-execution" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load → Validate → Render → Execute</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;my_prompt.yaml&quot;</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="template-preview">
+<h3>2. Template Preview<a class="headerlink" href="#template-preview" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load → Validate → Render (no execution)</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;my_prompt.yaml&quot;</span><span class="p">)</span>
+<span class="n">rendered</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rendered</span><span class="p">)</span>  <span class="c1"># See final prompt before sending to LLM</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-processing">
+<h3>3. Batch Processing<a class="headerlink" href="#batch-processing" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;summarize.yaml&quot;</span><span class="p">)</span>
+<span class="n">summaries</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">:</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">document</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="s2">&quot;brief&quot;</span><span class="p">}</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+    <span class="n">summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="pipeline-composition">
+<h3>4. Pipeline Composition<a class="headerlink" href="#pipeline-composition" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Multi-step workflows</span>
+<span class="n">extract_prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;extract_data.yaml&quot;</span><span class="p">)</span>
+<span class="n">analyze_prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;analyze_data.yaml&quot;</span><span class="p">)</span>
+<span class="n">summarize_prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;summarize_analysis.yaml&quot;</span><span class="p">)</span>
+
+<span class="c1"># Step 1: Extract</span>
+<span class="n">extracted</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span><span class="n">extract_prompt</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">raw_text</span><span class="p">},</span> <span class="n">engine</span><span class="p">)</span>
+
+<span class="c1"># Step 2: Analyze</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span><span class="n">analyze_prompt</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">extracted</span><span class="p">},</span> <span class="n">engine</span><span class="p">)</span>
+
+<span class="c1"># Step 3: Summarize</span>
+<span class="n">summary</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span><span class="n">summarize_prompt</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;analysis&quot;</span><span class="p">:</span> <span class="n">analysis</span><span class="p">},</span> <span class="n">engine</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="input-validation">
+<h2>Input Validation<a class="headerlink" href="#input-validation" title="Link to this heading"></a></h2>
+<p>PromptKit uses Pydantic-style type annotations for validation:</p>
+<section id="basic-types">
+<h3>Basic Types<a class="headerlink" href="#basic-types" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span><span class="w">           </span><span class="c1"># Required string</span>
+<span class="w">  </span><span class="nt">age</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span><span class="w">            </span><span class="c1"># Required integer</span>
+<span class="w">  </span><span class="nt">score</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float</span><span class="w">        </span><span class="c1"># Required float</span>
+<span class="w">  </span><span class="nt">active</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bool</span><span class="w">        </span><span class="c1"># Required boolean</span>
+</pre></div>
+</div>
+</section>
+<section id="optional-types">
+<h3>Optional Types<a class="headerlink" href="#optional-types" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span><span class="w">                    </span><span class="c1"># Required</span>
+<span class="w">  </span><span class="nt">middle_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;str</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">None&quot;</span><span class="w">    </span><span class="c1"># Optional string</span>
+<span class="w">  </span><span class="nt">nickname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;str</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">None&quot;</span><span class="w">       </span><span class="c1"># Optional string</span>
+</pre></div>
+</div>
+</section>
+<section id="complex-types">
+<h3>Complex Types<a class="headerlink" href="#complex-types" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;list[str]&quot;</span><span class="w">                    </span><span class="c1"># List of strings</span>
+<span class="w">  </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dict[str,</span><span class="nv"> </span><span class="s">Any]&quot;</span><span class="w">           </span><span class="c1"># Dictionary</span>
+<span class="w">  </span><span class="nt">coordinates</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tuple[float,</span><span class="nv"> </span><span class="s">float]&quot;</span><span class="w">   </span><span class="c1"># Tuple of two floats</span>
+<span class="w">  </span><span class="nt">user_info</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dict[str,</span><span class="nv"> </span><span class="s">str</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">int]&quot;</span><span class="w">    </span><span class="c1"># Dict with string keys, string or int values</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-validation">
+<h3>Custom Validation<a class="headerlink" href="#custom-validation" title="Link to this heading"></a></h3>
+<p>For complex validation, you can use Pydantic models:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">UserProfile</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">email_must_be_valid</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;@&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid email&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">age_must_be_reasonable</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid age&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="template-engine-jinja2">
+<h2>Template Engine (Jinja2)<a class="headerlink" href="#template-engine-jinja2" title="Link to this heading"></a></h2>
+<p>PromptKit uses Jinja2 for powerful templating:</p>
+<section id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h3>
+<div class="highlight-jinja2 notranslate"><div class="highlight"><pre><span></span>Hello {{ name }}!
+Your score is {{ score }}.
+</pre></div>
+</div>
+</section>
+<section id="conditionals">
+<h3>Conditionals<a class="headerlink" href="#conditionals" title="Link to this heading"></a></h3>
+<div class="highlight-jinja2 notranslate"><div class="highlight"><pre><span></span>{% if user.is_premium %}
+Welcome to our premium service!
+{% else %}
+Consider upgrading to premium.
+{% endif %}
+</pre></div>
+</div>
+</section>
+<section id="loops">
+<h3>Loops<a class="headerlink" href="#loops" title="Link to this heading"></a></h3>
+<div class="highlight-jinja2 notranslate"><div class="highlight"><pre><span></span>Your items:
+{% for item in items %}
+- {{ item.name }}: ${{ item.price }}
+{% endfor %}
+</pre></div>
+</div>
+</section>
+<section id="filters">
+<h3>Filters<a class="headerlink" href="#filters" title="Link to this heading"></a></h3>
+<div class="highlight-jinja2 notranslate"><div class="highlight"><pre><span></span>{{ message | upper }}                    {# HELLO WORLD #}
+{{ tags | join(&quot;, &quot;) }}                  {# tag1, tag2, tag3 #}
+{{ price | round(2) }}                   {# 19.99 #}
+{{ description | truncate(100) }}        {# First 100 chars... #}
+</pre></div>
+</div>
+</section>
+<section id="default-values">
+<h3>Default Values<a class="headerlink" href="#default-values" title="Link to this heading"></a></h3>
+<div class="highlight-jinja2 notranslate"><div class="highlight"><pre><span></span>Hello {{ name | default(&quot;Guest&quot;) }}!
+Priority: {{ priority | default(&quot;normal&quot;) | upper }}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h2>
+<p>PromptKit provides structured error handling:</p>
+<section id="validation-errors">
+<h3>Validation Errors<a class="headerlink" href="#validation-errors" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;my_prompt.yaml&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">invalid_data</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input validation failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Handle missing or invalid inputs</span>
+</pre></div>
+</div>
+</section>
+<section id="template-errors">
+<h3>Template Errors<a class="headerlink" href="#template-errors" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateError</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">rendered</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">TemplateError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Template rendering failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Handle undefined variables or syntax errors</span>
+</pre></div>
+</div>
+</section>
+<section id="engine-errors">
+<h3>Engine Errors<a class="headerlink" href="#engine-errors" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">EngineError</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt_text</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">EngineError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LLM execution failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Handle API errors, rate limits, etc.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<section id="organize-prompts-by-domain">
+<h3>1. Organize Prompts by Domain<a class="headerlink" href="#organize-prompts-by-domain" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>prompts/
+├── customer_service/
+│   ├── greeting.yaml
+│   ├── escalation.yaml
+│   └── followup.yaml
+├── content/
+│   ├── blog_post.yaml
+│   ├── social_media.yaml
+│   └── email.yaml
+└── analysis/
+    ├── sentiment.yaml
+    ├── summarization.yaml
+    └── classification.yaml
+</pre></div>
+</div>
+</section>
+<section id="use-clear-naming">
+<h3>2. Use Clear Naming<a class="headerlink" href="#use-clear-naming" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">customer_support_escalation_email</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate escalation emails for complex customer issues</span>
+
+<span class="c1"># Avoid</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">email_v2</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Email thing</span>
+</pre></div>
+</div>
+</section>
+<section id="design-for-reusability">
+<h3>3. Design for Reusability<a class="headerlink" href="#design-for-reusability" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generic prompt that works for multiple use cases</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">professional_email</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate professional emails with customizable tone and purpose</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">Subject: {{ subject }}</span>
+
+<span class="w">  </span><span class="no">Dear {{ recipient }},</span>
+
+<span class="w">  </span><span class="no">I hope this email finds you well. I am writing to {{ purpose }}.</span>
+
+<span class="w">  </span><span class="no">{% if tone == &quot;formal&quot; %}</span>
+<span class="w">  </span><span class="no">I would appreciate your consideration of this matter.</span>
+<span class="w">  </span><span class="no">{% elif tone == &quot;friendly&quot; %}</span>
+<span class="w">  </span><span class="no">I&#39;d love to hear your thoughts on this!</span>
+<span class="w">  </span><span class="no">{% endif %}</span>
+
+<span class="w">  </span><span class="no">Best regards,</span>
+<span class="w">  </span><span class="no">{{ sender }}</span>
+
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">recipient</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">sender</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">purpose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">tone</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;str</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">None&quot;</span><span class="w">  </span><span class="c1"># &quot;formal&quot;, &quot;friendly&quot;, &quot;neutral&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="version-your-prompts">
+<h3>4. Version Your Prompts<a class="headerlink" href="#version-your-prompts" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">code_review_v2</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Enhanced code review with security focus (version 2.0)</span>
+<span class="c1"># Keep old versions for backward compatibility</span>
+</pre></div>
+</div>
+</section>
+<section id="test-thoroughly">
+<h3>5. Test Thoroughly<a class="headerlink" href="#test-thoroughly" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_greeting_prompt</span><span class="p">():</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;greeting.yaml&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Test required inputs</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">render</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">})</span>
+    <span class="k">assert</span> <span class="s2">&quot;Alice&quot;</span> <span class="ow">in</span> <span class="n">result</span>
+
+    <span class="c1"># Test optional inputs</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">render</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="s2">&quot;birthday&quot;</span><span class="p">})</span>
+    <span class="k">assert</span> <span class="s2">&quot;Bob&quot;</span> <span class="ow">in</span> <span class="n">result</span>
+    <span class="k">assert</span> <span class="s2">&quot;birthday&quot;</span> <span class="ow">in</span> <span class="n">result</span>
+
+    <span class="c1"># Test validation</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">ValidationError</span><span class="p">):</span>
+        <span class="n">prompt</span><span class="o">.</span><span class="n">render</span><span class="p">({})</span>  <span class="c1"># Missing required &#39;name&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
+<section id="template-compilation">
+<h3>Template Compilation<a class="headerlink" href="#template-compilation" title="Link to this heading"></a></h3>
+<p>Templates are compiled once and reused:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Efficient - template compiled once</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;my_prompt.yaml&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">batch_data</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="engine-reuse">
+<h3>Engine Reuse<a class="headerlink" href="#engine-reuse" title="Link to this heading"></a></h3>
+<p>Reuse engine instances to avoid connection overhead:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create once</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">OpenAIEngine</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;sk-...&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use many times</span>
+<span class="k">for</span> <span class="n">prompt_data</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">prompt_data</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="caching">
+<h3>Caching<a class="headerlink" href="#caching" title="Link to this heading"></a></h3>
+<p>For expensive operations, consider caching:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_cached_prompt</span><span class="p">(</span><span class="n">prompt_name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">load_prompt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prompt_name</span><span class="si">}</span><span class="s2">.yaml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This foundation will help you build sophisticated, maintainable prompt-driven applications with PromptKit!</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/cli.html" class="btn btn-neutral float-left" title="CLI API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Olger Chotza.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

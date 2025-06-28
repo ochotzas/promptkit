@@ -1,0 +1,881 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Template Techniques &mdash; PromptKit 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Input Validation and Schema Management" href="validation.html" />
+    <link rel="prev" title="Creating Your First Prompt" href="first-prompt.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PromptKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#verify-installation">Verify Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#optional-dependencies">Optional Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#openai">OpenAI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#ollama">Ollama</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#your-first-prompt">Your First Prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#create-a-prompt-file">1. Create a Prompt File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#use-in-python">2. Use in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#use-the-cli">3. Use the CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#key-concepts">Key Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#yaml-structure">YAML Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#template-variables">Template Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#input-validation">Input Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-steps">Next Steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#multiple-engines">Multiple Engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#batch-processing">Batch Processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="first-prompt.html">Creating Your First Prompt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#what-well-build">What We’ll Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#step-1-design-the-prompt">Step 1: Design the Prompt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#step-2-create-the-yaml-file">Step 2: Create the YAML File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#step-3-test-the-prompt">Step 3: Test the Prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#using-python">Using Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#using-the-cli">Using the CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#step-4-advanced-features">Step 4: Advanced Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#template-rendering-only">Template Rendering Only</a></li>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#validation-and-debugging">Validation and Debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#step-5-iteration-and-improvement">Step 5: Iteration and Improvement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#version-2-enhanced-prompt">Version 2: Enhanced Prompt</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#clear-input-schema">1. Clear Input Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#default-values">2. Default Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#conditional-logic">3. Conditional Logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#error-handling">4. Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#multi-step-workflows">Multi-step Workflows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="first-prompt.html#dynamic-prompt-selection">Dynamic Prompt Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="first-prompt.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Template Techniques</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conditional-logic">Conditional Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loops-and-iteration">Loops and Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#template-filters">Template Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#template-inheritance">Template Inheritance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#base-template-base-prompt-yaml">Base Template (base_prompt.yaml)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#child-template-specialized-prompt-yaml">Child Template (specialized_prompt.yaml)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#macros-for-reusability">Macros for Reusability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-handling-in-templates">Error Handling in Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-template-functions">Custom Template Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-patterns">Common Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multi-language-support">Multi-language Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-validation">Dynamic Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Input Validation and Schema Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#basic-validation">Basic Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#simple-types">Simple Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#optional-fields">Optional Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#advanced-type-validation">Advanced Type Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#enum-validation">Enum Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#numeric-constraints">Numeric Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#string-constraints">String Constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#complex-object-validation">Complex Object Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#nested-objects">Nested Objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#array-validation">Array Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#date-and-time-validation">Date and Time Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#custom-validators">Custom Validators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#using-pydantic-models-in-python">Using Pydantic Models in Python</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#conditional-validation">Conditional Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#schema-variants">Schema Variants</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#validation-error-handling">Validation Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#custom-error-messages">Custom Error Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#validation-in-templates">Validation in Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#schema-composition-and-reuse">Schema Composition and Reuse</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#shared-schema-components">Shared Schema Components</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#testing-validation">Testing Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#unit-tests-for-schemas">Unit Tests for Schemas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validation.html#common-validation-patterns">Common Validation Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#file-upload-validation">File Upload Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html#api-configuration-validation">API Configuration Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/basic.html">Basic Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#simple-text-generation">Simple Text Generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#basic-greeting">Basic Greeting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#email-generator">Email Generator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#content-creation">Content Creation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#blog-post-outline">Blog Post Outline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#product-description">Product Description</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#question-answering">Question Answering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#faq-response">FAQ Response</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#data-processing">Data Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#report-summary">Report Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#educational-content">Educational Content</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#study-guide">Study Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#cli-usage-examples">CLI Usage Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#running-basic-examples">Running Basic Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#interactive-mode">Interactive Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#cost-estimation">Cost Estimation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#python-integration-examples">Python Integration Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#batch-processing">Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/basic.html#error-handling">Error Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/basic.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/advanced.html">Advanced Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#multi-step-workflow-system">Multi-Step Workflow System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#sequential-processing-pipeline">Sequential Processing Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#workflow-controller">Workflow Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#content-generation-system">Content Generation System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#dynamic-content-templates">Dynamic Content Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#ai-assistant-integration">AI Assistant Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#context-aware-assistant">Context-Aware Assistant</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#testing-and-quality-assurance">Testing and Quality Assurance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#automated-testing-framework">Automated Testing Framework</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/advanced.html#production-deployment">Production Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/advanced.html#configuration-management">Configuration Management</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/core.html">Core API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#promptkit-core-prompt">promptkit.core.prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#prompt-class">Prompt Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#promptkit-core-loader">promptkit.core.loader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#promptregistry-class">PromptRegistry Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#promptkit-core-runner">promptkit.core.runner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#id1">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#promptrunner-class">PromptRunner Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#promptkit-core-template">promptkit.core.template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#templaterenderer-class">TemplateRenderer Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#promptkit-core-validation">promptkit.core.validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#validator-class">Validator Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#id2">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#promptkit-core-exceptions">promptkit.core.exceptions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#custom-exceptions">Custom Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#promptkit-core-utils">promptkit.core.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/core.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/core.html#type-definitions">Type Definitions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/engines.html">Engines API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#base-engine">Base Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#baseengine-class">BaseEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#openai-engine">OpenAI Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#openaiengine-class">OpenAIEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#azure-openai-engine">Azure OpenAI Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#azureopenaiengine-class">AzureOpenAIEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#anthropic-engine">Anthropic Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#anthropicengine-class">AnthropicEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#local-engine">Local Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#localengine-class">LocalEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#huggingface-engine">HuggingFace Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#huggingfaceengine-class">HuggingFaceEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#mock-engine">Mock Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#mockengine-class">MockEngine Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#engine-factory">Engine Factory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#enginefactory-class">EngineFactory Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#engine-configuration">Engine Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/engines.html#engine-utilities">Engine Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/engines.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/cli.html">CLI API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#installation-and-setup">Installation and Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#environment-configuration">Environment Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#main-command-promptkit">Main Command: <code class="docutils literal notranslate"><span class="pre">promptkit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#global-options">Global Options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#core-commands">Core Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#run-execute-prompts"><code class="docutils literal notranslate"><span class="pre">run</span></code> - Execute Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#list-list-available-prompts"><code class="docutils literal notranslate"><span class="pre">list</span></code> - List Available Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#validate-validate-prompts"><code class="docutils literal notranslate"><span class="pre">validate</span></code> - Validate Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#create-create-new-prompts"><code class="docutils literal notranslate"><span class="pre">create</span></code> - Create New Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#edit-edit-prompts"><code class="docutils literal notranslate"><span class="pre">edit</span></code> - Edit Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#test-test-prompts"><code class="docutils literal notranslate"><span class="pre">test</span></code> - Test Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#init-initialize-project"><code class="docutils literal notranslate"><span class="pre">init</span></code> - Initialize Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#engine-management">Engine Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#engine-engine-operations"><code class="docutils literal notranslate"><span class="pre">engine</span></code> - Engine Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#batch-operations">Batch Operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#batch-batch-processing"><code class="docutils literal notranslate"><span class="pre">batch</span></code> - Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#batch-configuration-file">Batch Configuration File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#development-commands">Development Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#dev-development-tools"><code class="docutils literal notranslate"><span class="pre">dev</span></code> - Development Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#export-export-prompts"><code class="docutils literal notranslate"><span class="pre">export</span></code> - Export Prompts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#configuration-management">Configuration Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#config-configuration-operations"><code class="docutils literal notranslate"><span class="pre">config</span></code> - Configuration Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#configuration-file-format">Configuration File Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#shell-integration">Shell Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#shell-completion">Shell Completion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#aliases-and-functions">Aliases and Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#output-formats">Output Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#json-output">JSON Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#yaml-output">YAML Output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#error-handling">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#exit-codes">Exit Codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#common-error-messages">Common Error Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api/cli.html#advanced-usage">Advanced Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#pipeline-integration">Pipeline Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/cli.html#custom-scripts">Custom Scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#key-components">Key Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#prompts">1. Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#engines">2. Engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#runners">3. Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#loaders">4. Loaders</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#architecture-patterns">Architecture Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#separation-of-concerns">Separation of Concerns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-first-design">Template-First Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#type-safety">Type Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#workflow-patterns">Workflow Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#simple-execution">1. Simple Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-preview">2. Template Preview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#batch-processing">3. Batch Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#pipeline-composition">4. Pipeline Composition</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#input-validation">Input Validation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#basic-types">Basic Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#optional-types">Optional Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#complex-types">Complex Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#custom-validation">Custom Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#template-engine-jinja2">Template Engine (Jinja2)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#conditionals">Conditionals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#loops">Loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#filters">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#default-values">Default Values</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#error-handling">Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#validation-errors">Validation Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-errors">Template Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#engine-errors">Engine Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#best-practices">Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#organize-prompts-by-domain">1. Organize Prompts by Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#use-clear-naming">2. Use Clear Naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#design-for-reusability">3. Design for Reusability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#version-your-prompts">4. Version Your Prompts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#test-thoroughly">5. Test Thoroughly</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts.html#performance-considerations">Performance Considerations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#template-compilation">Template Compilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#engine-reuse">Engine Reuse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts.html#caching">Caching</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PromptKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Advanced Template Techniques</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/advanced-templates.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="advanced-template-techniques">
+<h1>Advanced Template Techniques<a class="headerlink" href="#advanced-template-techniques" title="Link to this heading"></a></h1>
+<p>Learn how to create sophisticated templates using PromptKit’s advanced features like conditionals, loops, custom filters, and template inheritance.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>PromptKit uses Jinja2 as its templating engine, which provides powerful features for creating dynamic and reusable prompts. This guide covers advanced techniques beyond basic variable substitution.</p>
+</section>
+<section id="conditional-logic">
+<h2>Conditional Logic<a class="headerlink" href="#conditional-logic" title="Link to this heading"></a></h2>
+<p>Use conditional statements to create adaptive prompts:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">adaptive_response</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Response that adapts based on user type</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">{% if user_type == &quot;beginner&quot; %}</span>
+<span class="w">  </span><span class="no">Let me explain this in simple terms:</span>
+<span class="w">  </span><span class="no">{{ explanation_simple }}</span>
+<span class="w">  </span><span class="no">{% elif user_type == &quot;expert&quot; %}</span>
+<span class="w">  </span><span class="no">Technical details:</span>
+<span class="w">  </span><span class="no">{{ explanation_technical }}</span>
+<span class="w">  </span><span class="no">{% else %}</span>
+<span class="w">  </span><span class="no">Here&#39;s a balanced explanation:</span>
+<span class="w">  </span><span class="no">{{ explanation_balanced }}</span>
+<span class="w">  </span><span class="no">{% endif %}</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">user_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">explanation_simple</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">explanation_technical</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">explanation_balanced</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+</pre></div>
+</div>
+</section>
+<section id="loops-and-iteration">
+<h2>Loops and Iteration<a class="headerlink" href="#loops-and-iteration" title="Link to this heading"></a></h2>
+<p>Process lists and create dynamic content:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">process_items</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Process a list of items</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">Here are the items to process:</span>
+<span class="w">  </span><span class="no">{% for item in items %}</span>
+<span class="w">  </span><span class="no">{{ loop.index }}. {{ item.name }}: {{ item.description }}</span>
+<span class="w">  </span><span class="no">{% if item.priority == &quot;high&quot; %}⚠️ HIGH PRIORITY{% endif %}</span>
+<span class="w">  </span><span class="no">{% endfor %}</span>
+
+<span class="w">  </span><span class="no">Summary: {{ items|length }} items total</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">        </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+</pre></div>
+</div>
+</section>
+<section id="template-filters">
+<h2>Template Filters<a class="headerlink" href="#template-filters" title="Link to this heading"></a></h2>
+<p>Use built-in and custom filters to transform data:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">formatted_content</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Content with various formatting</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">Title: {{ title|title }}</span>
+<span class="w">  </span><span class="no">Date: {{ date|strftime(&#39;%Y-%m-%d&#39;) }}</span>
+<span class="w">  </span><span class="no">Tags: {{ tags|join(&#39;, &#39;) }}</span>
+<span class="w">  </span><span class="no">Content: {{ content|truncate(100) }}</span>
+
+<span class="w">  </span><span class="no">{% if items %}</span>
+<span class="w">  </span><span class="no">Top Items:</span>
+<span class="w">  </span><span class="no">{% for item in items|sort(attribute=&#39;score&#39;)|reverse|list[:3] %}</span>
+<span class="w">  </span><span class="no">- {{ item.name }} (Score: {{ item.score }})</span>
+<span class="w">  </span><span class="no">{% endfor %}</span>
+<span class="w">  </span><span class="no">{% endif %}</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">        </span><span class="nt">score</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
+</pre></div>
+</div>
+</section>
+<section id="template-inheritance">
+<h2>Template Inheritance<a class="headerlink" href="#template-inheritance" title="Link to this heading"></a></h2>
+<p>Create reusable template bases:</p>
+<section id="base-template-base-prompt-yaml">
+<h3>Base Template (base_prompt.yaml)<a class="headerlink" href="#base-template-base-prompt-yaml" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">base_prompt</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Base template for all prompts</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">System: You are {{ role }}.</span>
+
+<span class="w">  </span><span class="no">Context: {{ context }}</span>
+
+<span class="w">  </span><span class="no">{% block instructions %}</span>
+<span class="w">  </span><span class="no">Please provide a helpful response.</span>
+<span class="w">  </span><span class="no">{% endblock %}</span>
+
+<span class="w">  </span><span class="no">{% block additional_info %}{% endblock %}</span>
+
+<span class="w">  </span><span class="no">User Query: {{ query }}</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">query</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+</pre></div>
+</div>
+</section>
+<section id="child-template-specialized-prompt-yaml">
+<h3>Child Template (specialized_prompt.yaml)<a class="headerlink" href="#child-template-specialized-prompt-yaml" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">specialized_prompt</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Specialized prompt extending base</span>
+<span class="nt">extends</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">base_prompt.yaml</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">{% extends &quot;base_prompt.yaml&quot; %}</span>
+
+<span class="w">  </span><span class="no">{% block instructions %}</span>
+<span class="w">  </span><span class="no">Please provide a detailed technical analysis including:</span>
+<span class="w">  </span><span class="no">1. Problem identification</span>
+<span class="w">  </span><span class="no">2. Solution approach</span>
+<span class="w">  </span><span class="no">3. Implementation steps</span>
+<span class="w">  </span><span class="no">4. Potential risks</span>
+<span class="w">  </span><span class="no">{% endblock %}</span>
+
+<span class="w">  </span><span class="no">{% block additional_info %}</span>
+<span class="w">  </span><span class="no">Technical Level: {{ technical_level }}</span>
+<span class="w">  </span><span class="no">Domain: {{ domain }}</span>
+<span class="w">  </span><span class="no">{% endblock %}</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">query</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">technical_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">domain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="macros-for-reusability">
+<h2>Macros for Reusability<a class="headerlink" href="#macros-for-reusability" title="Link to this heading"></a></h2>
+<p>Define reusable template components:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prompt_with_macros</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prompt using macros for reusable components</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">{% macro format_user(user) %}</span>
+<span class="w">  </span><span class="no">Name: {{ user.name }}</span>
+<span class="w">  </span><span class="no">Role: {{ user.role }}</span>
+<span class="w">  </span><span class="no">{% if user.expertise %}Expertise: {{ user.expertise }}{% endif %}</span>
+<span class="w">  </span><span class="no">{% endmacro %}</span>
+
+<span class="w">  </span><span class="no">{% macro format_task(task, show_priority=True) %}</span>
+<span class="w">  </span><span class="no">Task: {{ task.title }}</span>
+<span class="w">  </span><span class="no">Description: {{ task.description }}</span>
+<span class="w">  </span><span class="no">{% if show_priority and task.priority %}Priority: {{ task.priority }}{% endif %}</span>
+<span class="w">  </span><span class="no">{% endmacro %}</span>
+
+<span class="w">  </span><span class="no">Project Briefing:</span>
+
+<span class="w">  </span><span class="no">Team Members:</span>
+<span class="w">  </span><span class="no">{% for user in team %}</span>
+<span class="w">  </span><span class="no">{{ format_user(user) }}</span>
+<span class="w">  </span><span class="no">{% endfor %}</span>
+
+<span class="w">  </span><span class="no">Tasks:</span>
+<span class="w">  </span><span class="no">{% for task in tasks %}</span>
+<span class="w">  </span><span class="no">{{ format_task(task) }}</span>
+<span class="w">  </span><span class="no">{% endfor %}</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">team</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">        </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">        </span><span class="nt">expertise</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">        </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+</pre></div>
+</div>
+</section>
+<section id="error-handling-in-templates">
+<h2>Error Handling in Templates<a class="headerlink" href="#error-handling-in-templates" title="Link to this heading"></a></h2>
+<p>Handle missing or invalid data gracefully:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">robust_prompt</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prompt with error handling</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">Welcome {{ user.name|default(&quot;Guest&quot;) }}!</span>
+
+<span class="w">  </span><span class="no">{% if user.preferences %}</span>
+<span class="w">  </span><span class="no">Your preferences:</span>
+<span class="w">  </span><span class="no">{% for pref in user.preferences %}</span>
+<span class="w">  </span><span class="no">- {{ pref|title }}</span>
+<span class="w">  </span><span class="no">{% endfor %}</span>
+<span class="w">  </span><span class="no">{% else %}</span>
+<span class="w">  </span><span class="no">No preferences set. Using defaults.</span>
+<span class="w">  </span><span class="no">{% endif %}</span>
+
+<span class="w">  </span><span class="no">{% try %}</span>
+<span class="w">  </span><span class="no">Account Status: {{ user.account.status|upper }}</span>
+<span class="w">  </span><span class="no">Last Login: {{ user.account.last_login|strftime(&#39;%Y-%m-%d&#39;) }}</span>
+<span class="w">  </span><span class="no">{% except %}</span>
+<span class="w">  </span><span class="no">Account information unavailable.</span>
+<span class="w">  </span><span class="no">{% endtry %}</span>
+
+<span class="w">  </span><span class="no">{% set item_count = items|length if items else 0 %}</span>
+<span class="w">  </span><span class="no">You have {{ item_count }} item{{ &#39;s&#39; if item_count != 1 else &#39;&#39; }}.</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">user</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">      </span><span class="nt">preferences</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">        </span><span class="nt">items</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">      </span><span class="nt">account</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">          </span><span class="nt">last_login</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-template-functions">
+<h2>Custom Template Functions<a class="headerlink" href="#custom-template-functions" title="Link to this heading"></a></h2>
+<p>Extend templates with custom functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In your Python code</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.core.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_prompt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">promptkit.core.template</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateRenderer</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_format_currency</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="s2">&quot;USD&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom function to format currency&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">currency</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">amount</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_pluralize</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">singular</span><span class="p">,</span> <span class="n">plural</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom pluralization function&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">plural</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plural</span> <span class="o">=</span> <span class="n">singular</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span>
+    <span class="k">return</span> <span class="n">singular</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">plural</span>
+
+<span class="c1"># Register custom functions</span>
+<span class="n">renderer</span> <span class="o">=</span> <span class="n">TemplateRenderer</span><span class="p">()</span>
+<span class="n">renderer</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;format_currency&quot;</span><span class="p">,</span> <span class="n">custom_format_currency</span><span class="p">)</span>
+<span class="n">renderer</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s2">&quot;pluralize&quot;</span><span class="p">,</span> <span class="n">custom_pluralize</span><span class="p">)</span>
+
+<span class="c1"># Use in templates</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="n">load_prompt</span><span class="p">(</span><span class="s2">&quot;financial_report.yaml&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">prompt</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">&quot;revenue&quot;</span><span class="p">:</span> <span class="mf">150000.50</span><span class="p">,</span>
+    <span class="s2">&quot;expense_count&quot;</span><span class="p">:</span> <span class="mi">5</span>
+<span class="p">},</span> <span class="n">functions</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;format_currency&quot;</span><span class="p">:</span> <span class="n">custom_format_currency</span><span class="p">,</span>
+    <span class="s2">&quot;pluralize&quot;</span><span class="p">:</span> <span class="n">custom_pluralize</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>Template with custom functions:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">financial_report</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Financial report with custom formatting</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">Financial Summary:</span>
+<span class="w">  </span><span class="no">Revenue: {{ format_currency(revenue) }}</span>
+
+<span class="w">  </span><span class="no">We processed {{ expense_count }} {{ pluralize(expense_count, &quot;expense&quot;) }} this month.</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">revenue</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float</span>
+<span class="w">  </span><span class="nt">expense_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Keep templates readable</strong>: Use proper indentation and comments</p></li>
+<li><p><strong>Validate inputs</strong>: Always define comprehensive input schemas</p></li>
+<li><p><strong>Handle edge cases</strong>: Use default values and error handling</p></li>
+<li><p><strong>Modularize with macros</strong>: Create reusable components</p></li>
+<li><p><strong>Test thoroughly</strong>: Test templates with various input combinations</p></li>
+<li><p><strong>Document complex logic</strong>: Add comments for complex template logic</p></li>
+</ol>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">set</span> <span class="pre">%}</span></code> to avoid repeated calculations</p></li>
+<li><p>Minimize complex operations in loops</p></li>
+<li><p>Cache rendered templates when possible</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">{%</span> <span class="pre">raw</span> <span class="pre">%}</span></code> blocks for literal Jinja2 syntax</p></li>
+</ul>
+</section>
+<section id="common-patterns">
+<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Link to this heading"></a></h2>
+<section id="multi-language-support">
+<h3>Multi-language Support<a class="headerlink" href="#multi-language-support" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">multilingual_prompt</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prompt supporting multiple languages</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">{% set messages = {</span>
+<span class="w">    </span><span class="no">&#39;en&#39;: {&#39;greeting&#39;: &#39;Hello&#39;, &#39;farewell&#39;: &#39;Goodbye&#39;},</span>
+<span class="w">    </span><span class="no">&#39;es&#39;: {&#39;greeting&#39;: &#39;Hola&#39;, &#39;farewell&#39;: &#39;Adiós&#39;},</span>
+<span class="w">    </span><span class="no">&#39;fr&#39;: {&#39;greeting&#39;: &#39;Bonjour&#39;, &#39;farewell&#39;: &#39;Au revoir&#39;}</span>
+<span class="w">  </span><span class="no">} %}</span>
+
+<span class="w">  </span><span class="no">{{ messages[language][&#39;greeting&#39;] }} {{ name }}!</span>
+
+<span class="w">  </span><span class="no">{{ content }}</span>
+
+<span class="w">  </span><span class="no">{{ messages[language][&#39;farewell&#39;] }}!</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">language</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+</pre></div>
+</div>
+</section>
+<section id="dynamic-validation">
+<h3>Dynamic Validation<a class="headerlink" href="#dynamic-validation" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dynamic_validation</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prompt with dynamic validation rules</span>
+<span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">{% if validation_level == &quot;strict&quot; %}</span>
+<span class="w">  </span><span class="no">Please ensure your response meets these criteria:</span>
+<span class="w">  </span><span class="no">{% for rule in strict_rules %}</span>
+<span class="w">  </span><span class="no">- {{ rule }}</span>
+<span class="w">  </span><span class="no">{% endfor %}</span>
+<span class="w">  </span><span class="no">{% elif validation_level == &quot;moderate&quot; %}</span>
+<span class="w">  </span><span class="no">Consider these guidelines:</span>
+<span class="w">  </span><span class="no">{% for rule in moderate_rules %}</span>
+<span class="w">  </span><span class="no">- {{ rule }}</span>
+<span class="w">  </span><span class="no">{% endfor %}</span>
+<span class="w">  </span><span class="no">{% endif %}</span>
+
+<span class="w">  </span><span class="no">Query: {{ query }}</span>
+<span class="nt">input_schema</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">validation_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">strict_rules</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">moderate_rules</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">  </span><span class="nt">query</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+</pre></div>
+</div>
+<p>This guide provides a comprehensive overview of advanced templating techniques in PromptKit. Use these patterns to create sophisticated, maintainable, and reusable prompts.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="first-prompt.html" class="btn btn-neutral float-left" title="Creating Your First Prompt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="validation.html" class="btn btn-neutral float-right" title="Input Validation and Schema Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Olger Chotza.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
