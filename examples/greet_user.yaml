@@ -1,0 +1,13 @@
+name: greet_user
+description: Basic greeting prompt that welcomes a user by name
+template: |
+  Hello {{ name }}, how can I help you today?
+
+  {% if context %}
+  Context: {{ context }}
+  {% endif %}
+
+  Please let me know what you'd like assistance with.
+input_schema:
+  name: str
+  context: "str | None"

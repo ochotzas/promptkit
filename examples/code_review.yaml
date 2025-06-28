@@ -1,0 +1,39 @@
+name: code_review
+description: AI-powered code review assistant
+template: |
+  You are an experienced software engineer conducting a code review.
+  Please review the following {{ language }} code and provide constructive feedback.
+
+  ## Code to Review:
+  ```{{ language }}
+  {{ code }}
+  ```
+
+  ## Review Criteria:
+  {% if criteria %}
+  {{ criteria }}
+  {% else %}
+  - Code quality and readability
+  - Performance considerations
+  - Security best practices
+  - Maintainability
+  {% endif %}
+
+  ## Instructions:
+  1. Identify any issues or areas for improvement
+  2. Suggest specific fixes with code examples
+  3. Highlight any positive aspects of the code
+  4. Rate the overall code quality from 1-10
+
+  {% if context %}
+  ## Additional Context:
+  {{ context }}
+  {% endif %}
+
+  Please provide your review:
+
+input_schema:
+  code: str
+  language: str
+  criteria: "str | None"
+  context: "str | None"

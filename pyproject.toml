@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "promptkit/__init__.py"
+
+[project]
+name = "promptkit-core"
+dynamic = ["version"]
+description = "Structured Prompt Engineering for LLM Apps"
+authors = [{name="Olger Chotza", email="olgerdev@icloud.com"}]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.5",
+    "jinja2>=3.1",
+    "pyyaml>=6.0",
+    "httpx>=0.25",
+    "typer[all]>=0.9",
+    "rich>=13.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-asyncio>=0.21",
+    "black>=23.0",
+    "isort>=5.12",
+    "mypy>=1.5",
+    "ruff>=0.1.0",
+    "pre-commit>=3.0",
+    "types-PyYAML"
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=2.0.0",
+    "myst-parser>=2.0.0",
+    "linkify-it-py>=2.0.0",
+    "sphinx-autobuild>=2021.3.14",
+]
+
+[project.scripts]
+promptkit = "promptkit.cli.main:app"
+
+[project.urls]
+Homepage = "https://github.com/ochotzas/promptkit"
+Repository = "https://github.com/ochotzas/promptkit"
+Issues = "https://github.com/ochotzas/promptkit/issues"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["promptkit"]

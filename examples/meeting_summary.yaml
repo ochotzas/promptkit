@@ -1,0 +1,51 @@
+name: meeting_summary
+description: Summarize meeting notes and extract action items
+template: |
+  Please analyze the following meeting notes and provide a structured summary.
+
+  Meeting Notes:
+  {{ meeting_notes }}
+
+  Please provide:
+
+  ## Meeting Summary
+  - **Date**: {{ meeting_date }}
+  - **Attendees**: {{ attendees }}
+  {% if meeting_type -%}
+  - **Type**: {{ meeting_type }}
+  {% endif -%}
+
+  ## Key Discussion Points
+  Summarize the main topics discussed in bullet points.
+
+  ## Decisions Made
+  List any decisions that were made during the meeting.
+
+  ## Action Items
+  Extract and list all action items with:
+  - Task description
+  - Assigned person (if mentioned)
+  - Due date (if mentioned)
+  - Priority level
+
+  ## Next Steps
+  Summarize what needs to happen next.
+
+  {% if include_risks -%}
+  ## Risks and Concerns
+  Identify any risks or concerns mentioned.
+  {% endif -%}
+
+  Format: Use clear headings and bullet points for easy scanning.
+  Tone: Professional and concise.
+
+input_schema:
+  meeting_notes: str
+  meeting_date: str
+  attendees: str
+  meeting_type: "str | None"
+  include_risks: "str | None"
+
+engine_config:
+  temperature: 0.3
+  max_tokens: 800

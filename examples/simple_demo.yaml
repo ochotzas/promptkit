@@ -1,0 +1,9 @@
+name: simple_demo
+description: Simple demo prompt for testing
+template: |
+  Hello {{ name }}! You are {{ age }} years old.
+  {% if hobby %}Your hobby is {{ hobby }}.{% endif %}
+input_schema:
+  name: str
+  age: int
+  hobby: "str | None"

@@ -1,0 +1,44 @@
+name: product_description
+description: Generate compelling product descriptions for e-commerce
+template: |
+  Write a compelling product description for an e-commerce listing.
+
+  Product Details:
+  - Name: {{ product_name }}
+  - Category: {{ category }}
+  {% if brand -%}
+  - Brand: {{ brand }}
+  {% endif -%}
+  - Price: ${{ price }}
+  {% if key_features -%}
+  - Key Features: {{ key_features }}
+  {% endif -%}
+  {% if target_audience -%}
+  - Target Audience: {{ target_audience }}
+  {% endif -%}
+
+  Requirements:
+  - Write in a {{ tone | default("professional") }} tone
+  - Length: {{ max_words | default(150) }} words maximum
+  - Include emotional appeal and benefits
+  - End with a compelling call-to-action
+  {% if seo_keywords -%}
+  - Incorporate these SEO keywords naturally: {{ seo_keywords }}
+  {% endif -%}
+
+  Focus on benefits over features and make it engaging for potential customers.
+
+input_schema:
+  product_name: str
+  category: str
+  price: str
+  brand: "str | None"
+  key_features: "str | None"
+  target_audience: "str | None"
+  tone: "str | None"
+  max_words: "str | None"
+  seo_keywords: "str | None"
+
+engine_config:
+  temperature: 0.7
+  max_tokens: 300
