@@ -47,35 +47,6 @@ Managing prompts for Large Language Models (LLMs) can quickly become messy. Hard
   - 🖥️ **Powerful CLI:** Render, run, and lint prompts directly from your terminal for rapid development and testing.
   - 🧪 **Fully Tested & Typed:** A comprehensive test suite and full type-hinting ensure reliability.
 
-## How It Works
-
-PromptKit creates a simple, robust workflow for your prompts. GitHub will automatically render the diagram below.
-
-```mermaid
-graph TD
-    A[📄 YAML Prompt File e.g., greet_user.yaml] -->|Loaded by| B[⚙️ PromptKit Core]
-    B -->|Renders Template| G[Jinja2]
-    G --> D[🤖 LLM Engine: OpenAI, Ollama, etc.]
-    B -->|Validates Inputs| C[🔍 Pydantic Schema]
-    C -- Valid --> D
-    C -- Invalid --> F[❌ ValidationError]
-    D -- Response --> E[✅ Final Output]
-
-    subgraph User
-        A
-    end
-    subgraph PromptKit
-        B
-        G
-        C
-        D
-    end
-    subgraph Outputs
-        E
-        F
-    end
-```
-
 ## 🚀 Quick Start
 
 ### 1. Installation
