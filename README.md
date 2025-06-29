@@ -122,7 +122,7 @@ Contributions are welcome! Whether it's a bug report, a new feature, or a docume
 
 1.  Fork the repository.
 2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3.  Install development dependencies: `pip install -e .[dev]`
+3.  Install development dependencies: `pip install -e '.[dev]'`
 4.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
 5.  Push to the branch (`git push origin feature/AmazingFeature`).
 6.  Open a Pull Request.

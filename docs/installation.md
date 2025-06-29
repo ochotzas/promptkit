@@ -19,7 +19,7 @@ For development, clone the repository and install in editable mode with developm
 ```bash
 git clone https://github.com/ochotzas/promptkit.git
 cd promptkit
-pip install -e .[dev]
+pip install -e '.[dev]'
 ```
 
 ## Verify Installation

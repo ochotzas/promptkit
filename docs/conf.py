@@ -18,18 +18,16 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
-project = "PromptKit"
-copyright = "2025, Olger Chotza"
-author = "Olger Chotza"
-
-# Get version from the package
 try:
     from promptkit import __version__
 
     release = __version__
 except ImportError:
-    release = "0.1.0"  # fallback
+    release = "0.0.0"  # fallback
 
+project = "PromptKit"
+copyright = f"2025, Olger Chotza • PromptKit v{release}"
+author = "Olger Chotza"
 
 # -- General configuration ---------------------------------------------------
 

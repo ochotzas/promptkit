@@ -1,6 +1,3 @@
-# Documentation Makefile
-
-# You can set these variables from the command line
 SPHINXBUILD   = sphinx-build
 SOURCEDIR     = .
 BUILDDIR      = _build

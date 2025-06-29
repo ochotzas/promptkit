@@ -1,4 +1,4 @@
-.PHONY: help install install-dev test test-cov lint format type-check clean build docs serve-docs
+.PHONY: help install install-dev test test-cov lint format type-check clean build docs serve-docs clean-docs example cli-help cli-test all
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -59,13 +59,17 @@ clean: ## Clean build artifacts
 	find . -type f -name "*.pyc" -delete
 
 build: ## Build package
+	@python -c "import build" 2>/dev/null || { echo "⚠️  build not found. Run 'pip install build' or 'make install-dev' to install it."; exit 1; }
 	python -m build
 
-docs: ## Generate documentation (placeholder)
-	@echo "Documentation generation not implemented yet"
+docs: ## Build documentation as HTML
+	$(MAKE) -C docs html
 
-serve-docs: ## Serve documentation locally (placeholder)
-	@echo "Documentation serving not implemented yet"
+clean-docs: ## Clean documentation build artifacts
+	$(MAKE) -C docs clean
+
+serve-docs: ## Serve documentation with live reload
+	$(MAKE) -C docs livehtml
 
 example: ## Run example script
 	python examples/example.py
