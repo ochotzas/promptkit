@@ -1,9 +1,4 @@
-"""
-OpenAI engine implementation.
-
-This module provides an engine implementation for OpenAI's GPT models
-using the OpenAI API.
-"""
+"""OpenAI engine implementation."""
 
 import json
 from typing import Any, Optional
@@ -17,13 +12,8 @@ logger = get_logger(__name__)
 
 
 class OpenAIEngine(BaseEngine):
-    """
-    OpenAI engine implementation using the OpenAI API.
+    """OpenAI engine for GPT models."""
 
-    Supports all OpenAI chat models including GPT-3.5, GPT-4, and newer variants.
-    """
-
-    # Model pricing per 1K tokens (input, output) in USD
     MODEL_PRICING = {
         "gpt-3.5-turbo": (0.0010, 0.0020),
         "gpt-3.5-turbo-1106": (0.0010, 0.0020),

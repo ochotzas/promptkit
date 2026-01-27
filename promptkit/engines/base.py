@@ -1,9 +1,4 @@
-"""
-Abstract base engine for LLM implementations.
-
-This module defines the interface that all LLM engines must implement,
-ensuring consistency across different providers.
-"""
+"""Base engine interface."""
 
 from abc import ABC, abstractmethod
 from typing import Any, Optional
@@ -16,13 +11,7 @@ class EngineError(Exception):
 
 
 class BaseEngine(ABC):
-    """
-    Abstract base class for all LLM engines.
-
-    All engine implementations must inherit from this class and implement
-    the generate method. This ensures a consistent interface across
-    different LLM providers.
-    """
+    """Abstract base class for LLM engines."""
 
     def __init__(self, model: str = "default") -> None:
         """

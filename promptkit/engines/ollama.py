@@ -1,9 +1,4 @@
-"""
-Ollama engine implementation for local LLM models.
-
-This module provides an engine implementation for Ollama,
-allowing the use of local LLM models.
-"""
+"""Ollama engine implementation."""
 
 from typing import Any, Optional
 
@@ -16,12 +11,7 @@ logger = get_logger(__name__)
 
 
 class OllamaEngine(BaseEngine):
-    """
-    Ollama engine implementation for local LLM models.
-
-    Ollama allows you to run large language models locally on your machine.
-    This engine provides integration with Ollama's API.
-    """
+    """Ollama engine for local LLM models."""
 
     def __init__(
         self,

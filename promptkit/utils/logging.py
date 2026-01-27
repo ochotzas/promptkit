@@ -1,9 +1,4 @@
-"""
-Logging utilities for PromptKit.
-
-This module provides a unified logging configuration for the library,
-ensuring consistent log formatting and levels across all components.
-"""
+"""Logging utilities."""
 
 import logging
 import sys

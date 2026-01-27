@@ -1,9 +1,4 @@
-"""
-Core Prompt class for structured prompt management.
-
-This module defines the main Prompt class that encapsulates
-prompt metadata, template, and input validation.
-"""
+"""Core Prompt class."""
 
 from typing import Any, Dict, Optional
 
@@ -15,13 +10,7 @@ from promptkit.core.schema import validate_inputs
 
 
 class Prompt(BaseModel):
-    """
-    Core Prompt class that encapsulates all prompt-related functionality.
-
-    A Prompt contains metadata, a Jinja2 template, and an input schema
-    for validation. It provides methods to validate inputs and render
-    the final prompt text.
-    """
+    """Prompt with template, schema, and metadata."""
 
     name: str = Field(..., description="Unique identifier for the prompt")
     description: str = Field(..., description="Human-readable description")
@@ -49,35 +38,11 @@ class Prompt(BaseModel):
         self._compiled_template = self._compiler.compile_template(self.template)
 
     def validate_inputs(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Validate inputs against the prompt's schema.
-
-        Args:
-            inputs: Input data to validate
-
-        Returns:
-            Validated input data
-
-        Raises:
-            ValidationError: If validation fails
-        """
+        """Validate inputs against the prompt's schema."""
         return validate_inputs(inputs, self.input_schema)
 
     def render(self, inputs: Dict[str, Any], validate: bool = True) -> str:
-        """
-        Render the prompt template with the given inputs.
-
-        Args:
-            inputs: Variables to use in template rendering
-            validate: Whether to validate inputs against schema
-
-        Returns:
-            Rendered prompt text
-
-        Raises:
-            ValidationError: If input validation fails
-            TemplateError: If template rendering fails
-        """
+        """Render the template with inputs."""
         if validate:
             inputs = self.validate_inputs(inputs)
 
@@ -88,12 +53,7 @@ class Prompt(BaseModel):
         return self._compiler.render_template(self._compiled_template, inputs)
 
     def get_required_inputs(self) -> list[str]:
-        """
-        Get the list of required input field names.
-
-        Returns:
-            List of required input field names
-        """
+        """Get required input field names."""
         return [
             field_name
             for field_name, type_str in self.input_schema.items()
@@ -101,12 +61,7 @@ class Prompt(BaseModel):
         ]
 
     def get_optional_inputs(self) -> list[str]:
-        """
-        Get the list of optional input field names.
-
-        Returns:
-            List of optional input field names
-        """
+        """Get optional input field names."""
         return [
             field_name
             for field_name, type_str in self.input_schema.items()

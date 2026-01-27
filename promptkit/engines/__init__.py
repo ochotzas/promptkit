@@ -1,9 +1,4 @@
-"""
-LLM Engine implementations for PromptKit.
-
-This package provides different engine implementations for various
-LLM providers and local models.
-"""
+"""LLM Engine implementations."""
 
 from promptkit.engines.base import BaseEngine
 from promptkit.engines.ollama import OllamaEngine

@@ -1,9 +1,4 @@
-"""
-Jinja2 template compilation and rendering.
-
-This module handles template compilation and rendering using Jinja2,
-providing safe and efficient template processing for prompts.
-"""
+"""Jinja2 template compiler."""
 
 from typing import Any, Dict
 

@@ -20,7 +20,6 @@
 <p align="center">
   <a href="https://pypi.org/project/promptkit-core/"> <img alt="PyPI" src="https://img.shields.io/pypi/v/promptkit-core.svg?style=flat-square"></a>
   <a href="https://img.shields.io/badge/python-%3E%3D3.10-blue"><img alt="PyPI - Python Version" src="https://img.shields.io/badge/python-%3E%3D3.10-blue?style=flat-square"></a>
-  <a href="https://img.shields.io/pypi/pyreq/promptkit-core?style=flat-square" alt="PyPI - Python Required Version"></a>
   <a href="https://github.com/ochotzas/promptkit/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/ochotzas/promptkit/ci.yml?branch=main&style=flat-square&label=tests"></a>
   <a href="https://github.com/ochotzas/promptkit/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/ochotzas/promptkit.svg?style=flat-square"></a>
 </p>
@@ -29,106 +28,143 @@
 
 ## Why PromptKit?
 
-Managing prompts for Large Language Models (LLMs) can quickly become messy. Hardcoding prompts as f-strings mixes logic with presentation, lacks validation, and makes it difficult to reuse and test them.
+Managing prompts for Large Language Models can quickly become messy. Hardcoding prompts as f-strings mixes logic with presentation, lacks validation, and makes reuse difficult.
 
-**PromptKit** solves this by treating your prompts as structured, version-controlled assets. By defining prompts in simple `YAML` files, you get:
+**PromptKit** solves this by treating your prompts as structured, version-controlled assets. By defining prompts in YAML files, you get:
 
-  * **Clean Separation:** Your prompt templates, logic, and configuration are separate from your application code.
-  * **Safety & Reliability:** Built-in validation ensures your prompts receive the correct inputs every time.
-  * **Reusability:** Define a prompt once and use it anywhere—in your Python code or directly from the CLI.
-  * **Clarity:** A clear, human-readable format for prompts that anyone on your team can understand.
+- **Clean Separation**: Prompt templates are separate from application code
+- **Safety & Reliability**: Built-in validation ensures prompts receive correct inputs
+- **Reusability**: Define a prompt once, use it anywhere
+- **Clarity**: Human-readable format anyone can understand
 
-## ✨ Features
+## Features
 
-  - 📝 **Declarative & Structured:** Define prompts in simple `YAML` files with powerful **Jinja2** templating.
-  - 🔍 **Built-in Validation:** Use **Pydantic** schemas to validate prompt inputs before they are ever sent to the LLM.
-  - 🏗️ **Engine Agnostic:** A clean engine abstraction layer supports OpenAI, with Ollama and other local models on the way.
-  - 💰 **Cost & Token Estimation:** Estimate token counts and potential costs *before* executing a prompt.
-  - 🖥️ **Powerful CLI:** Render, run, and lint prompts directly from your terminal for rapid development and testing.
-  - 🧪 **Fully Tested & Typed:** A comprehensive test suite and full type-hinting ensure reliability.
+- 📝 **Declarative**: Define prompts in YAML with Jinja2 templating
+- 🔍 **Validation**: Pydantic-based input validation before rendering
+- 🏗️ **Engine Abstraction**: Supports OpenAI and Ollama
+- 💰 **Cost Estimation**: Estimate token counts and costs before execution
+- 🖥️ **CLI**: Render, run, lint, and inspect prompts from terminal
+- 🧪 **Typed**: Full type hints for IDE support
 
-## 🚀 Quick Start
+## Quick Start
 
-### 1. Installation
+### Installation
 
-```
+```bash
 pip install promptkit-core
 ```
 
-### 2. Define a Prompt
+### Define a Prompt
 
-Create a file named `prompts/generate_greeting.yaml`:
+Create `greet.yaml`:
 
 ```yaml
-# prompts/generate_greeting.yaml
-name: generate_greeting
-description: "Generates a personalized and professional greeting."
+name: greet
+description: Generates a personalized greeting
 template: |
-  Hello {{ name }},
+  Hello {{ name }}!
+  
+  {% if context %}
+  Context: {{ context }}
+  {% endif %}
+  
+  How can I help you today?
 
-  Welcome to the team! We are excited to have a {{ role }} with your skills on board.
-
-  Best,
-  The PromptKit Team
 input_schema:
   name: str
-  role: str
+  context: "str | None"
 ```
 
-### 3. Use in Python
+### Use in Python
 
 ```python
-# main.py
-from promptkit.core.loader import load_prompt
-from promptkit.core.runner import run_prompt
-from promptkit.engines.openai import OpenAIEngine
+from promptkit import load_prompt, run_prompt, OpenAIEngine
 
-# Load prompt from YAML (assuming it's in a 'prompts' directory)
-prompt = load_prompt("generate_greeting", prompt_dir="prompts")
+prompt = load_prompt("greet.yaml")
 
-# Configure engine
-engine = OpenAIEngine(api_key="sk-...") # Or load from environment
+engine = OpenAIEngine(api_key="sk-...")
 
-# Run prompt with validated inputs
-response = run_prompt(prompt, {"name": "Alice", "role": "Software Engineer"}, engine)
+response = run_prompt(prompt, {"name": "Alice"}, engine)
 print(response)
 ```
 
-### 4. Use the CLI
+### Use the CLI
 
-The CLI is perfect for quick tests, rendering, and validation.
+```bash
+export OPENAI_API_KEY="sk-..."
 
-```shell
-# Set the directory where your prompts are stored (optional, can be passed as an argument)
-export PROMPTKIT_PROMPT_DIR=./prompts
+# Run the prompt
+promptkit run greet.yaml --name Alice
 
-# Run the prompt directly from the terminal
-promptkit run generate_greeting --key "sk-..." --name "Bob" --role "Data Scientist"
+# Render template without calling AI
+promptkit render greet.yaml --name Alice
 
-# Just render the template to see the output
-promptkit render generate_greeting --name "Charlie" --role "Product Manager"
+# Validate prompt structure
+promptkit lint greet.yaml
 
-# Lint your YAML file to check for errors
-promptkit lint generate_greeting
+# Get prompt information
+promptkit info greet.yaml
+
+# Estimate costs
+promptkit cost greet.yaml --model gpt-4 --name Alice
 ```
 
-## 📚 Documentation
+## Prompt Structure
 
-For detailed usage, advanced features, and API reference, please refer to the **[Official PromptKit Documentation](https://ochotzas.github.io/promptkit/)**.
+Every prompt YAML file contains:
 
-## 🤝 Contributing
+- `name`: Unique identifier
+- `description`: Human-readable description
+- `template`: Jinja2 template with variables
+- `input_schema`: Type definitions for inputs
 
-Contributions are welcome! Whether it's a bug report, a new feature, or a documentation improvement, please feel free to open an issue or submit a pull request.
+### Input Schema Types
 
-1.  Fork the repository.
-2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3.  Install development dependencies: `pip install -e '.[dev]'`
-4.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-5.  Push to the branch (`git push origin feature/AmazingFeature`).
-6.  Open a Pull Request.
+```yaml
+input_schema:
+  name: str              # Required string
+  age: int               # Required integer
+  score: float           # Required float
+  active: bool           # Required boolean
+  tags: list             # Required list
+  data: dict             # Required dictionary
+  email: "str | None"    # Optional string
+```
 
-Please see the `CONTRIBUTING.md` file for more details.
+## Engines
 
-## 📄 License
+### OpenAI
 
-This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=https://github.com/ochotzas/promptkit/blob/main/LICENSE) file for details.
+```python
+from promptkit import OpenAIEngine
+
+engine = OpenAIEngine(
+    api_key="sk-...",
+    model="gpt-4o-mini",
+    temperature=0.7,
+    max_tokens=1000
+)
+```
+
+### Ollama (Local)
+
+```python
+from promptkit.engines import OllamaEngine
+
+engine = OllamaEngine(
+    model="llama2",
+    temperature=0.7
+)
+```
+
+## Documentation
+
+See the [documentation](https://ochotzas.github.io/promptkit/) for detailed guides and API reference.
+
+## Contributing
+
+Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.

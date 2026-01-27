@@ -1,9 +1,4 @@
-"""
-Command-line interface for PromptKit.
-
-This module provides a comprehensive CLI for working with prompts,
-including running, rendering, and validating prompt files.
-"""
+"""Command-line interface for PromptKit."""
 
 import json
 from pathlib import Path

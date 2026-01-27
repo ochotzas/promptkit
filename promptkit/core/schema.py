@@ -1,9 +1,4 @@
-"""
-Schema validation utilities using Pydantic.
-
-This module provides functionality to validate prompt inputs against
-defined schemas, ensuring type safety and proper data validation.
-"""
+"""Schema validation utilities."""
 
 from typing import Any, Dict, Type, Union
 

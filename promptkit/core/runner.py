@@ -1,9 +1,4 @@
-"""
-Prompt execution orchestrator.
-
-This module provides the main runner functionality that orchestrates
-prompt rendering and LLM execution with proper error handling.
-"""
+"""Prompt execution runner."""
 
 from typing import Any, Dict
 
@@ -20,37 +15,7 @@ def run_prompt(
     engine: BaseEngine,
     validate_inputs: bool = True,
 ) -> str:
-    """
-    Execute a prompt with the given inputs using the specified engine.
-
-    This is the main orchestration function that:
-    1. Validates inputs against the prompt schema
-    2. Renders the prompt template
-    3. Sends the rendered prompt to the LLM engine
-    4. Returns the response
-
-    Args:
-        prompt: The prompt to execute
-        inputs: Input variables for the prompt template
-        engine: The LLM engine to use for generation
-        validate_inputs: Whether to validate inputs against schema
-
-    Returns:
-        The LLM's response text
-
-    Raises:
-        ValidationError: If input validation fails
-        TemplateError: If template rendering fails
-        EngineError: If LLM generation fails
-
-    Example:
-        >>> from promptkit.core.loader import load_prompt
-        >>> from promptkit.engines.openai import OpenAIEngine
-        >>>
-        >>> prompt = load_prompt("greet_user.yaml")
-        >>> engine = OpenAIEngine(api_key="sk-...")
-        >>> response = run_prompt(prompt, {"name": "Alice"}, engine)
-    """
+    """Execute a prompt with the given inputs using the specified engine."""
     logger.info(
         f"Running prompt '{prompt.name}' with engine {engine.__class__.__name__}"
     )
@@ -75,23 +40,7 @@ async def run_prompt_async(
     engine: BaseEngine,
     validate_inputs: bool = True,
 ) -> str:
-    """
-    Asynchronously execute a prompt with the given inputs using the specified engine.
-
-    Args:
-        prompt: The prompt to execute
-        inputs: Input variables for the prompt template
-        engine: The LLM engine to use for generation
-        validate_inputs: Whether to validate inputs against schema
-
-    Returns:
-        The LLM's response text
-
-    Raises:
-        ValidationError: If input validation fails
-        TemplateError: If template rendering fails
-        EngineError: If LLM generation fails
-    """
+    """Asynchronously execute a prompt."""
     logger.info(
         f"Running prompt '{prompt.name}' async with engine {engine.__class__.__name__}"
     )

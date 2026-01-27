@@ -1,9 +1,4 @@
-"""
-Unit tests for PromptKit core functionality.
-
-This module contains comprehensive tests for the Prompt class,
-schema validation, template rendering, and related functionality.
-"""
+"""Unit tests for PromptKit."""
 
 from pathlib import Path
 from tempfile import NamedTemporaryFile

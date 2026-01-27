@@ -1,20 +1,12 @@
-"""
-Token estimation and cost calculation utilities.
-
-This module provides functionality to estimate token usage and
-calculate costs for different LLM models.
-"""
+"""Token estimation and cost utilities."""
 
 import re
 from typing import Dict, Optional
 
-# Approximate token estimation based on character count
-# This is a rough approximation; actual tokenization varies by model
 CHARS_PER_TOKEN = 4
 
 
 MODEL_PRICING: Dict[str, tuple[float, float]] = {
-    # OpenAI Models
     "gpt-3.5-turbo": (0.0010, 0.0020),
     "gpt-3.5-turbo-1106": (0.0010, 0.0020),
     "gpt-4": (0.03, 0.06),
@@ -22,11 +14,9 @@ MODEL_PRICING: Dict[str, tuple[float, float]] = {
     "gpt-4-turbo-preview": (0.01, 0.03),
     "gpt-4o": (0.005, 0.015),
     "gpt-4o-mini": (0.00015, 0.0006),
-    # Anthropic Models (example pricing)
     "claude-3-opus": (0.015, 0.075),
     "claude-3-sonnet": (0.003, 0.015),
     "claude-3-haiku": (0.00025, 0.00125),
-    # Local models (free)
     "ollama": (0.0, 0.0),
 }
 

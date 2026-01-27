@@ -1,9 +1,4 @@
-"""
-YAML prompt loader for loading prompts from files.
-
-This module provides functionality to load prompt definitions
-from YAML files and convert them into Prompt objects.
-"""
+"""YAML prompt loader."""
 
 from pathlib import Path
 from typing import Any, Dict
@@ -15,27 +10,7 @@ from promptkit.core.prompt import Prompt
 
 
 def load_prompt(file_path: str | Path) -> Prompt:
-    """
-    Load a prompt from a YAML file.
-
-    Args:
-        file_path: Path to the YAML file containing the prompt definition.
-                  The .yaml extension is optional and will be added automatically if missing.
-
-    Returns:
-        Prompt object created from the YAML file
-
-    Raises:
-        FileNotFoundError: If the file doesn't exist
-        yaml.YAMLError: If YAML parsing fails
-        ValidationError: If the prompt data is invalid
-
-    Example:
-        >>> prompt = load_prompt("examples/greet_user.yaml")
-        >>> # Or without extension:
-        >>> prompt = load_prompt("examples/greet_user")
-        >>> response = prompt.render({"name": "Alice"})
-    """
+    """Load a prompt from a YAML file. Extension is optional."""
     file_path = Path(file_path)
 
     if not file_path.suffix:
@@ -59,16 +34,7 @@ def load_prompt(file_path: str | Path) -> Prompt:
 
 
 def _create_prompt_from_dict(data: Dict[str, Any], file_path: Path) -> Prompt:
-    """
-    Create a Prompt object from a dictionary loaded from YAML.
-
-    Args:
-        data: Dictionary containing prompt data
-        file_path: Path to the original file (for error reporting)
-
-    Returns:
-        Prompt object
-    """
+    """Create a Prompt from YAML dictionary."""
     required_fields = {"name", "description", "template"}
     missing_fields = required_fields - set(data.keys())
 
@@ -93,16 +59,7 @@ def _create_prompt_from_dict(data: Dict[str, Any], file_path: Path) -> Prompt:
 
 
 def save_prompt(prompt: Prompt, file_path: str | Path) -> None:
-    """
-    Save a prompt to a YAML file.
-
-    Args:
-        prompt: Prompt object to save
-        file_path: Path where to save the YAML file
-
-    Raises:
-        OSError: If file writing fails
-    """
+    """Save a prompt to a YAML file."""
     file_path = Path(file_path)
 
     # Create parent directories if they don't exist
