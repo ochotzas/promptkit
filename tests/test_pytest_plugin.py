@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 import pytest
@@ -57,7 +58,7 @@ def write_suite(pytester: pytest.Pytester) -> None:
 
 def record(pytester: pytest.Pytester) -> None:
     (pytester.path / "record_it.py").write_text(RECORDER)
-    result = pytester.run("python", "record_it.py")
+    result = pytester.run(sys.executable, "record_it.py")
 
     assert result.ret == 0
 

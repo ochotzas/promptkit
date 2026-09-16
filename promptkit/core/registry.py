@@ -173,7 +173,7 @@ class PromptRegistry:
             return []
 
         return sorted(
-            str(p.relative_to(self.root))
+            p.relative_to(self.root).as_posix()
             for p in self.root.rglob("*")
             if p.is_file() and is_partial(p.relative_to(self.root))
         )

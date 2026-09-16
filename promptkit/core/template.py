@@ -122,7 +122,7 @@ class ConfinedLoader(BaseLoader):
 
     def list_templates(self) -> list[str]:
         found = [
-            str(p.relative_to(self.root))
+            p.relative_to(self.root).as_posix()
             for p in sorted(self.root.rglob("*"))
             if p.is_file() and p.suffix in TEMPLATE_SUFFIXES
         ]

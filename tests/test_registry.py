@@ -238,3 +238,23 @@ class TestVersionResolution:
         self, tmp_path: Path, identifier: str, expected: tuple[str, str | None]
     ) -> None:
         assert PromptRegistry(tmp_path).split_version(identifier) == expected
+
+
+class TestPathStyle:
+    def test_partials_use_posix_separators(self, tree: Path) -> None:
+        for name in PromptRegistry(tree).partials():
+            assert "\\" not in name
+
+    def test_partials_match_include_syntax(self, tree: Path) -> None:
+        assert "_partials/tone.j2" in PromptRegistry(tree).partials()
+
+    def test_identifiers_use_dots_not_separators(self, tree: Path) -> None:
+        for name in PromptRegistry(tree).names():
+            assert "/" not in name
+            assert "\\" not in name
+
+    def test_loader_lists_templates_with_posix_separators(self, tree: Path) -> None:
+        from promptkit.core.template import ConfinedLoader
+
+        for name in ConfinedLoader(tree).list_templates():
+            assert "\\" not in name
