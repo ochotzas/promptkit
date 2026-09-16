@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0]
+## [1.0.0] - 2026-09-16
 
 The first stable release, and a complete rearchitecture of everything under the surface.
 The public API is frozen and PromptKit now follows semantic versioning.
