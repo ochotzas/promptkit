@@ -23,7 +23,7 @@ from promptkit.pricing import (
     list_models,
     lookup,
 )
-from promptkit.utils.tokens import count_tokens, has_exact_counting
+from promptkit.utils.tokens import estimate_tokens, exact_tokens
 
 EPILOG = (
     "Examples:\n\n"
@@ -87,9 +87,10 @@ def cost(
     except PromptKitError as e:
         raise fail(e) from e
 
-    input_tokens = count_tokens(rendered, model)
+    counted = exact_tokens(rendered, model)
+    input_tokens = counted if counted is not None else estimate_tokens(rendered)
     estimated = estimate_cost(input_tokens, output_tokens, model)
-    accuracy = "exact" if has_exact_counting() else "estimated"
+    accuracy = "exact" if counted is not None else "estimated"
     found = lookup(model)
 
     console.print(f"[bold]{prompt.name}[/bold] with {model}")

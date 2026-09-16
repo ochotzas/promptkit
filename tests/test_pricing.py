@@ -264,6 +264,56 @@ class TestImmutability:
         assert "bespoke-model" not in pricing.PRICING
 
 
+class TestOfflineTokenCounting:
+    @pytest.fixture(autouse=True)
+    def _clear_encoding_cache(self) -> Iterator[None]:
+        from promptkit.utils.tokens import _encoding
+
+        _encoding.cache_clear()
+        yield
+        _encoding.cache_clear()
+
+    def _break_tiktoken(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        import tiktoken
+
+        def unreachable(*args: Any, **kwargs: Any) -> Any:
+            raise ConnectionError("tiktoken could not fetch its encoding")
+
+        monkeypatch.setattr(tiktoken, "encoding_for_model", unreachable)
+        monkeypatch.setattr(tiktoken, "get_encoding", unreachable)
+
+    def test_exact_tokens_returns_none_when_unreachable(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from promptkit.utils.tokens import exact_tokens
+
+        self._break_tiktoken(monkeypatch)
+
+        assert exact_tokens("hello world") is None
+
+    def test_count_tokens_falls_back_to_the_heuristic(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from promptkit.utils.tokens import count_tokens, estimate_tokens
+
+        self._break_tiktoken(monkeypatch)
+        text = "The quick brown fox jumps over the lazy dog."
+
+        assert count_tokens(text) == estimate_tokens(text)
+
+    def test_cost_estimation_still_works_offline(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from promptkit.utils.tokens import count_tokens
+
+        self._break_tiktoken(monkeypatch)
+
+        cost = pricing.estimate_cost(count_tokens("hello"), 0, "gpt-4o-mini")
+
+        assert cost is not None
+        assert cost >= 0.0
+
+
 class TestLazyPublicApi:
     def test_importing_promptkit_does_not_import_engines(self) -> None:
         import subprocess

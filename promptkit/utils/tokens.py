@@ -31,14 +31,27 @@ def has_exact_counting() -> bool:
     return importlib.util.find_spec("tiktoken") is not None
 
 
+def _try_load(load: Any) -> Any | None:
+    try:
+        return load()
+    except Exception:
+        return None
+
+
 @lru_cache(maxsize=32)
-def _encoding(model: str) -> Any:
+def _encoding(model: str) -> Any | None:
     import tiktoken
 
-    try:
-        return tiktoken.encoding_for_model(model)
-    except KeyError:
-        return tiktoken.get_encoding(FALLBACK_ENCODING)
+    for load in (
+        lambda: tiktoken.encoding_for_model(model),
+        lambda: tiktoken.get_encoding(FALLBACK_ENCODING),
+    ):
+        encoding = _try_load(load)
+
+        if encoding is not None:
+            return encoding
+
+    return None
 
 
 def exact_tokens(text: str, model: str = "gpt-4o-mini") -> int | None:
@@ -48,7 +61,15 @@ def exact_tokens(text: str, model: str = "gpt-4o-mini") -> int | None:
     if not text:
         return 0
 
-    return len(_encoding(model).encode(text))
+    encoding = _encoding(model)
+
+    if encoding is None:
+        return None
+
+    try:
+        return len(encoding.encode(text))
+    except Exception:
+        return None
 
 
 def count_tokens(text: str, model: str = "gpt-4o-mini") -> int:
