@@ -541,10 +541,29 @@ Not built, and not forgotten. Each is a lever on adoption rather than a feature:
 
 ### What 1.1 might still hold
 
-- A middleware pipeline, **only** if real extension needs emerge that retry options,
-  the cache protocol, and event listeners cannot express.
-- Cost budgets as an eval assertion across a whole suite rather than per case.
-- Cassette redaction, if anyone records responses containing personal data.
+Ordered by value, not by effort.
+
+1. **Dataset-driven evals.** A case that reads rows from a CSV or JSONL file and a
+   `threshold` for acceptable pass rate. This is the one that changes who the tool is
+   for — from "I wrote five test cases" to "I regression-test prompts like code".
+   Cassettes are what make it affordable: record N responses once, replay free.
+2. **Context-window awareness.** The upstream pricing dataset carries
+   `max_input_tokens` per model and the snapshot generator currently discards it.
+   Vendoring it enables a lint rule for prompts that risk overflowing the window, a
+   `fits_context` assertion, and `promptkit cost` showing usage as a share of the
+   window. Cheap, and it turns a production-time provider error into a lint finding.
+3. **Output diffing.** `promptkit diff --outputs` — run two prompt versions against the
+   same cassette inputs and diff the *responses*. `diff` currently compares source,
+   which is not the question anyone actually has.
+4. **Cassette redaction.** Cassettes are committed, and they contain whatever the model
+   said in response to whatever a user typed. A `redact:` option and a documented
+   warning, before anyone records evals over real customer data.
+5. **`promptkit fmt`** for canonical prompt-file formatting, `--format json` on the
+   commands that still lack it, and aggregate cost reporting across runs.
+6. A middleware pipeline, **only** if real extension needs emerge that retry options,
+   the cache protocol, and event listeners cannot express.
+
+Still permanently out of scope: tool calling, agent loops, memory, RAG.
 
 ---
 
