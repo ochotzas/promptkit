@@ -85,11 +85,11 @@ ollama = "promptkit.engines.ollama:OllamaEngine"
 compatible = "promptkit.engines.compatible:CompatibleEngine"
 
 [project.urls]
-Homepage = "https://github.com/ochotzas/promptkit"
-Documentation = "https://promptkit.ochotzas.com/"
-Changelog = "https://github.com/ochotzas/promptkit/blob/main/CHANGELOG.md"
-Repository = "https://github.com/ochotzas/promptkit"
-Issues = "https://github.com/ochotzas/promptkit/issues"
+Homepage = "https://github.com/ochotzas/promptkit-core"
+Documentation = "https://promptkit-core.ochotzas.com/"
+Changelog = "https://github.com/ochotzas/promptkit-core/blob/main/CHANGELOG.md"
+Repository = "https://github.com/ochotzas/promptkit-core"
+Issues = "https://github.com/ochotzas/promptkit-core/issues"
 
 [tool.ruff]
 line-length = 88

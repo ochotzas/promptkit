@@ -32,7 +32,7 @@ the test suite. Read the [upgrade guide](docs/upgrading.md) and run
   (`prompts/support/refund.yaml` becomes `support.refund`), cached with mtime
   invalidation.
 - `version`, `metadata` (tags, author, model, temperature), `loads_prompt()`, and a
-  published [JSON Schema](https://promptkit.ochotzas.com/schemas/prompt.schema.json) for
+  published [JSON Schema](https://promptkit-core.ochotzas.com/schemas/prompt.schema.json) for
   prompt files so editors can validate and autocomplete them.
 
 **Types and execution**
@@ -93,7 +93,7 @@ the test suite. Read the [upgrade guide](docs/upgrading.md) and run
   and `render --messages`. Shell completion is enabled.
 - **`python -m promptkit.codemod`** for the 0.1.x upgrade. Dry run by default, prints a
   unified diff, and only rewrites what it can do unambiguously.
-- **A documentation site** at [promptkit.ochotzas.com](https://promptkit.ochotzas.com/).
+- **A documentation site** at [promptkit-core.ochotzas.com](https://promptkit-core.ochotzas.com/).
 - `py.typed`, so the type hints reach consumers. Exact token counts behind `[tokens]`.
 
 ### Changed

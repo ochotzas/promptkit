@@ -330,6 +330,6 @@ class TestPublishedSchema:
         schema = json.loads(
             Path("promptkit/schemas/prompt.schema.json").read_text(encoding="utf-8")
         )
-        site_url = "https://promptkit.ochotzas.com/"
+        site_url = "https://promptkit-core.ochotzas.com/"
 
         assert schema["$id"] == f"{site_url}schemas/prompt.schema.json"

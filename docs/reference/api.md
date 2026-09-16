@@ -53,9 +53,12 @@ from promptkit import Prompt, MessageTemplate, PromptMetadata
 
 ```python
 from promptkit import (
-    run_prompt, run_prompt_async,
-    run_prompt_text, run_prompt_text_async,
-    run_structured, run_structured_async,
+    run_prompt,
+    run_prompt_async,
+    run_prompt_text,
+    run_prompt_text_async,
+    run_structured,
+    run_structured_async,
 )
 ```
 
@@ -97,7 +100,13 @@ counts came from the provider or were guessed.
 ## Engines
 
 ```python
-from promptkit import BaseEngine, OpenAIEngine, AnthropicEngine, OllamaEngine, CompatibleEngine
+from promptkit import (
+    BaseEngine,
+    OpenAIEngine,
+    AnthropicEngine,
+    OllamaEngine,
+    CompatibleEngine,
+)
 from promptkit import discover_engines, load_engine
 ```
 

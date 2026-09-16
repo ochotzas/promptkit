@@ -8,11 +8,11 @@ A typo in a prompt is a bug. PromptKit catches it like one.
 
 [![PyPI](https://img.shields.io/pypi/v/promptkit-core.svg?style=flat-square&color=4c1)](https://pypi.org/project/promptkit-core/)
 [![Python](https://img.shields.io/badge/python-3.10–3.13-blue?style=flat-square)](https://pypi.org/project/promptkit-core/)
-[![CI](https://img.shields.io/github/actions/workflow/status/ochotzas/promptkit/ci.yml?branch=main&style=flat-square&label=tests)](https://github.com/ochotzas/promptkit/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/ochotzas/promptkit-core/ci.yml?branch=main&style=flat-square&label=tests)](https://github.com/ochotzas/promptkit-core/actions/workflows/ci.yml)
 [![mypy strict](https://img.shields.io/badge/mypy-strict-2a6db2?style=flat-square)](https://mypy-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
-[**Documentation**](https://promptkit.ochotzas.com/) · [Getting started](https://promptkit.ochotzas.com/getting-started/) · [Issues](https://github.com/ochotzas/promptkit/issues)
+[**Documentation**](https://promptkit-core.ochotzas.com/) · [Getting started](https://promptkit-core.ochotzas.com/getting-started/) · [Issues](https://github.com/ochotzas/promptkit-core/issues)
 
 </div>
 
@@ -188,15 +188,15 @@ python -m promptkit.codemod your_package/          # dry run, prints a diff
 python -m promptkit.codemod your_package/ --write  # apply it
 ```
 
-Details in the [upgrade guide](https://promptkit.ochotzas.com/upgrading/).
+Details in the [upgrade guide](https://promptkit-core.ochotzas.com/upgrading/).
 
 ---
 
 <div align="center">
 
-**[promptkit.ochotzas.com](https://promptkit.ochotzas.com/)**
+**[promptkit-core.ochotzas.com](https://promptkit-core.ochotzas.com/)**
 
-[Prompt files](https://promptkit.ochotzas.com/guide/prompt-files/) · [Schemas](https://promptkit.ochotzas.com/guide/schemas/) · [Composition](https://promptkit.ochotzas.com/guide/composition/) · [Structured output](https://promptkit.ochotzas.com/guide/structured-output/) · [Evaluation](https://promptkit.ochotzas.com/guide/evaluation/) · [Writing an engine](https://promptkit.ochotzas.com/guide/custom-engines/)
+[Prompt files](https://promptkit-core.ochotzas.com/guide/prompt-files/) · [Schemas](https://promptkit-core.ochotzas.com/guide/schemas/) · [Composition](https://promptkit-core.ochotzas.com/guide/composition/) · [Structured output](https://promptkit-core.ochotzas.com/guide/structured-output/) · [Evaluation](https://promptkit-core.ochotzas.com/guide/evaluation/) · [Writing an engine](https://promptkit-core.ochotzas.com/guide/custom-engines/)
 
 MIT licensed · [Contributing](CONTRIBUTING.md) · [Architecture](ARCHITECTURE.md)
 

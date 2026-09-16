@@ -76,9 +76,9 @@ pip install 'promptkit-core[openai]'      # was: pip install promptkit-core
 ## `Prompt.template` is gone
 
 ```python
-prompt.template          # removed
-prompt.joined_template   # the concatenated source
-prompt.messages          # what you probably want
+prompt.template  # removed
+prompt.joined_template  # the concatenated source
+prompt.messages  # what you probably want
 ```
 
 The `template=` constructor argument and the `template:` YAML key are **not** removed.
@@ -93,10 +93,13 @@ class MyEngine(BaseEngine):
     def generate(self, prompt: str) -> str:
         return self.client.ask(prompt)
 
+
 # 1.0
 class MyEngine(BaseEngine):
     def _complete(self, messages: list[Message], **options: Any) -> Completion:
-        raw = self.client.ask([{"role": m.role, "content": m.content} for m in messages])
+        raw = self.client.ask(
+            [{"role": m.role, "content": m.content} for m in messages]
+        )
 
         return Completion(
             text=raw.text,

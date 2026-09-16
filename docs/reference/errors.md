@@ -84,11 +84,11 @@ is possible:
 try:
     completion = engine.complete(messages)
 except AuthenticationError:
-    ...   # 401/403, whichever provider
+    ...  # 401/403, whichever provider
 except ContextLengthError:
-    ...   # prompt too long, whichever provider
+    ...  # prompt too long, whichever provider
 except ProviderError as e:
-    ...   # e.status_code when there was one
+    ...  # e.status_code when there was one
 ```
 
 An exception an engine does not recognise is re-raised unchanged rather than being

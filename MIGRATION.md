@@ -503,11 +503,11 @@ unchanged.
    workflow verifies the tag matches `__version__` and that `CHANGELOG.md` has a
    matching section before building.
 3. Configure PyPI Trusted Publishing for `promptkit-core` (repository
-   `ochotzas/promptkit`, workflow `cd.yml`, environment `pypi`) and create the `pypi`
+   `ochotzas/promptkit-core`, workflow `cd.yml`, environment `pypi`) and create the `pypi`
    environment in repository settings. **Publishing fails until this is done** — the
    workflow no longer uses an API token.
 4. Enable GitHub Pages with the **GitHub Actions** source, and set the custom domain
-   to `promptkit.ochotzas.com` in repository settings. A `CNAME` file is committed at
+   to `promptkit-core.ochotzas.com` in repository settings. A `CNAME` file is committed at
    `docs/CNAME` so it lands in the published artifact too.
 5. Point DNS at GitHub Pages: a `CNAME` record for `promptkit` → `ochotzas.github.io`.
    Enable "Enforce HTTPS" once the certificate is issued.

@@ -6,9 +6,9 @@ table of model rates.
 ```python
 completion = run_prompt(prompt, inputs, engine)
 
-completion.usage.prompt_tokens      # from the provider
-completion.usage.estimated          # False when the provider reported them
-engine.cost_of(completion)          # None when the model's rates are unknown
+completion.usage.prompt_tokens  # from the provider
+completion.usage.estimated  # False when the provider reported them
+engine.cost_of(completion)  # None when the model's rates are unknown
 ```
 
 ```bash
@@ -51,10 +51,10 @@ Anything else returns `None`, and PromptKit reports no cost rather than a wrong 
 from promptkit.pricing import lookup
 
 found = lookup("claude-3-5-sonnet-20241022")
-found.matched      # 'claude-3-5-sonnet'
-found.kind         # 'snapshot'
-found.exact        # False — inferred from a dated variant
-found.describe()   # "claude-3-5-sonnet (dated snapshot of ...)"
+found.matched  # 'claude-3-5-sonnet'
+found.kind  # 'snapshot'
+found.exact  # False — inferred from a dated variant
+found.describe()  # "claude-3-5-sonnet (dated snapshot of ...)"
 ```
 
 !!! warning "Why there is no prefix matching"

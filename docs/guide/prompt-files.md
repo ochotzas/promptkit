@@ -26,7 +26,7 @@ metadata:
 ```
 
 A JSON Schema for prompt files is published at
-[`promptkit.ochotzas.com/schemas/prompt.schema.json`](https://promptkit.ochotzas.com/schemas/prompt.schema.json)
+[`promptkit-core.ochotzas.com/schemas/prompt.schema.json`](https://promptkit-core.ochotzas.com/schemas/prompt.schema.json)
 and ships with the package at `promptkit/schemas/prompt.schema.json`.
 
 Point your editor at it for validation and autocomplete. In VS Code with the YAML
@@ -35,7 +35,7 @@ extension:
 ```json
 {
   "yaml.schemas": {
-    "https://promptkit.ochotzas.com/schemas/prompt.schema.json": [
+    "https://promptkit-core.ochotzas.com/schemas/prompt.schema.json": [
       "prompts/**/*.yaml",
       "!prompts/**/*.evals.yaml"
     ]
@@ -46,7 +46,7 @@ extension:
 Or per file, with a modeline at the top of the prompt:
 
 ```yaml
-# yaml-language-server: $schema=https://promptkit.ochotzas.com/schemas/prompt.schema.json
+# yaml-language-server: $schema=https://promptkit-core.ochotzas.com/schemas/prompt.schema.json
 name: greet
 ```
 
@@ -127,8 +127,8 @@ template: |
 over the messages, schemas, and resolved includes.
 
 ```python
-a = load_prompt("greet.yaml")          # version: 1.0.0
-b = load_prompt("greet-copy.yaml")     # version: 9.9.9, same content
+a = load_prompt("greet.yaml")  # version: 1.0.0
+b = load_prompt("greet-copy.yaml")  # version: 9.9.9, same content
 
 assert a.fingerprint == b.fingerprint  # version is not identity
 ```
@@ -142,8 +142,8 @@ fingerprint, which invalidates cached responses. Bumping `version` alone does no
 from promptkit import load_prompt, loads_prompt, save_prompt
 
 prompt = load_prompt("prompts/greet.yaml")
-prompt = load_prompt("prompts/greet")         # extension optional
-prompt = loads_prompt(yaml_text)              # from a string
+prompt = load_prompt("prompts/greet")  # extension optional
+prompt = loads_prompt(yaml_text)  # from a string
 
 save_prompt(prompt, "prompts/greet.yaml")
 ```
@@ -169,7 +169,7 @@ prompts/
 from promptkit import PromptRegistry
 
 registry = PromptRegistry("prompts")
-registry.names()             # ['greet', 'support.refund']
+registry.names()  # ['greet', 'support.refund']
 registry.get("support.refund")
 ```
 
@@ -184,10 +184,10 @@ When several files declare the same prompt `name` with different `version` value
 one with `@`:
 
 ```python
-registry.get("support.refund")           # by path, as usual
-registry.get("support.refund@2.1.0")     # a specific version
-registry.get("support.refund@latest")    # the highest version
-registry.versions("support.refund")      # {'1.0.0': Path(...), '2.1.0': Path(...)}
+registry.get("support.refund")  # by path, as usual
+registry.get("support.refund@2.1.0")  # a specific version
+registry.get("support.refund@latest")  # the highest version
+registry.versions("support.refund")  # {'1.0.0': Path(...), '2.1.0': Path(...)}
 ```
 
 Versions sort numerically, so `2.10.0` correctly beats `2.1.0`. Asking for a version that

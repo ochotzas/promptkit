@@ -20,9 +20,11 @@ Every event carries `prompt_name` and `model`.
 ```python
 from promptkit.events import subscribe, RequestCompleted
 
+
 def log_cost(event):
     if isinstance(event, RequestCompleted):
         print(f"{event.prompt_name}: {event.usage.total_tokens} tokens, ${event.cost}")
+
 
 subscribe(log_cost)
 ```
@@ -96,6 +98,7 @@ def to_statsd(event):
     if isinstance(event, RequestCompleted):
         statsd.timing("llm.duration", event.duration_seconds * 1000)
         statsd.increment("llm.tokens", event.usage.total_tokens)
+
 
 subscribe(to_statsd)
 ```

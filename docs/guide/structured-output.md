@@ -34,8 +34,8 @@ from promptkit import load_prompt, run_structured
 prompt = load_prompt("extract_invoice.yaml")
 result = run_structured(prompt, {"document": raw_text}, engine)
 
-result.value.invoice_number   # validated
-result.completion.usage       # the underlying Completion
+result.value.invoice_number  # validated
+result.completion.usage  # the underlying Completion
 ```
 
 ## Or a Pydantic model
@@ -43,10 +43,12 @@ result.completion.usage       # the underlying Completion
 ```python
 from pydantic import BaseModel
 
+
 class Invoice(BaseModel):
     invoice_number: str
     total: float
     currency: str
+
 
 result = run_structured(prompt, {"document": raw_text}, engine, output_model=Invoice)
 ```
@@ -82,8 +84,8 @@ from promptkit.errors import OutputValidationError
 try:
     result = run_structured(prompt, inputs, engine, output_model=Invoice)
 except OutputValidationError as e:
-    print(e)          # what was wrong
-    print(e.errors()) # Pydantic's structured detail, when the failure was validation
+    print(e)  # what was wrong
+    print(e.errors())  # Pydantic's structured detail, when the failure was validation
 ```
 
 ## Async

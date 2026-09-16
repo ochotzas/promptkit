@@ -95,7 +95,7 @@ it loads, which is why partials resolve from anywhere in the tree.
 
 ```python
 registry = PromptRegistry("prompts")
-registry.get("support.refund")   # '_partials/...' resolves
+registry.get("support.refund")  # '_partials/...' resolves
 ```
 
 ## When not to compose

@@ -11,9 +11,9 @@ Retry is a constructor option on the engine, on by default.
 from promptkit.retry import RetryPolicy, NO_RETRY
 from promptkit.engines.openai import OpenAIEngine
 
-OpenAIEngine()                                       # 3 attempts, on by default
+OpenAIEngine()  # 3 attempts, on by default
 OpenAIEngine(retry=RetryPolicy(attempts=5))
-OpenAIEngine(retry=NO_RETRY)                         # fail fast
+OpenAIEngine(retry=NO_RETRY)  # fail fast
 ```
 
 ```python
@@ -65,6 +65,7 @@ fingerprint and therefore misses the cache — which is the behaviour you want.
 
 ```python
 from promptkit.types import Completion
+
 
 class RedisCache:
     def get(self, key: str) -> Completion | None: ...

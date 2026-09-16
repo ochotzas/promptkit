@@ -22,8 +22,8 @@ Nothing here traps you. Every engine exposes its underlying SDK client, and ever
 completion carries the raw provider response:
 
 ```python
-engine.client       # the openai / anthropic / ollama client
-completion.raw      # the provider's own response object
+engine.client  # the openai / anthropic / ollama client
+completion.raw  # the provider's own response object
 ```
 
 So a tool-calling flow that starts from a PromptKit prompt is one attribute access away:

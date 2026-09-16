@@ -16,7 +16,7 @@ PyPI. If you see a package claiming to be one of them, it did not come from us.
 ## Reporting a vulnerability
 
 Report privately through
-[GitHub Security Advisories](https://github.com/ochotzas/promptkit/security/advisories/new),
+[GitHub Security Advisories](https://github.com/ochotzas/promptkit-core/security/advisories/new),
 or by email to me@ochotzas.com.
 
 Please do not open a public issue for a security problem.

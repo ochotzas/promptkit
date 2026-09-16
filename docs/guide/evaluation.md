@@ -166,9 +166,9 @@ prompt = load_prompt("support_reply.yaml")
 suite = load_suite("support_reply.evals.yaml")
 result = run_suite(prompt, suite, engine, concurrency=8)
 
-result.ok        # False if any case failed
+result.ok  # False if any case failed
 result.passed, result.failed, result.skipped
-result.cost      # total across cases
+result.cost  # total across cases
 
 for case in result.results:
     for failure in case.failures:
@@ -182,6 +182,7 @@ carrying the error, not a crash that loses the rest of the run.
 
 ```python
 from promptkit.evals.assertions import AssertionResult, Context, register
+
 
 @register("mentions_price")
 def _mentions_price(context: Context, expected: bool) -> AssertionResult:

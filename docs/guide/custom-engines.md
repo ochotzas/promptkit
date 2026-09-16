@@ -44,14 +44,13 @@ Put request building, response parsing, and error mapping in **module-level pure
 functions**, and keep the transport methods thin:
 
 ```python
-def build_params(messages, model, temperature=None, **extra):
-    ...
+def build_params(messages, model, temperature=None, **extra): ...
 
-def parse_response(raw, model) -> Completion:
-    ...
 
-def map_error(error: Exception, model: str) -> EngineError:
-    ...
+def parse_response(raw, model) -> Completion: ...
+
+
+def map_error(error: Exception, model: str) -> EngineError: ...
 
 
 class MyEngine(BaseEngine):
@@ -95,9 +94,14 @@ same thing everywhere:
 
 ```python
 from promptkit.errors import (
-    AuthenticationError, ContextLengthError, EngineError,
-    ModelNotFoundError, ProviderError, RateLimitError,
+    AuthenticationError,
+    ContextLengthError,
+    EngineError,
+    ModelNotFoundError,
+    ProviderError,
+    RateLimitError,
 )
+
 
 def map_error(error: Exception, model: str) -> EngineError:
     if isinstance(error, MyAuthError):
@@ -135,12 +139,13 @@ Declare honestly. A false `json_mode` produces confusing failures.
 ## Lifecycle
 
 ```python
-    def close(self) -> None:
-        self._client = None
+def close(self) -> None:
+    self._client = None
 
-    async def aclose(self) -> None:
-        self.close()
-        await self._aclient.close()
+
+async def aclose(self) -> None:
+    self.close()
+    await self._aclient.close()
 ```
 
 Context manager support comes from the base class. Never clean up in `__del__`.

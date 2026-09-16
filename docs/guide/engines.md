@@ -48,10 +48,12 @@ async with AnthropicEngine() as engine:
 ```python
 from promptkit.types import Message
 
-engine.complete([
-    Message(role="system", content="Be brief."),
-    Message(role="user", content="Explain vector databases."),
-])
+engine.complete(
+    [
+        Message(role="system", content="Be brief."),
+        Message(role="user", content="Explain vector databases."),
+    ]
+)
 ```
 
 `AnthropicEngine` hoists system messages into the Messages API's top-level `system`
@@ -118,8 +120,8 @@ See the [error reference](../reference/errors.md).
 Anything outside PromptKit's scope is one attribute away:
 
 ```python
-engine.client          # the underlying SDK client
-completion.raw         # the provider's own response object
+engine.client  # the underlying SDK client
+completion.raw  # the provider's own response object
 ```
 
 Use these for tool calling, assistants, batch APIs, or anything else PromptKit

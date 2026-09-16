@@ -1,8 +1,8 @@
 site_name: PromptKit
 site_description: Lint and test your LLM prompts before they reach production.
-site_url: https://promptkit.ochotzas.com/
-repo_url: https://github.com/ochotzas/promptkit
-repo_name: ochotzas/promptkit
+site_url: https://promptkit-core.ochotzas.com/
+repo_url: https://github.com/ochotzas/promptkit-core
+repo_name: ochotzas/promptkit-core
 edit_uri: edit/dev/docs/
 copyright: MIT licensed
 
@@ -66,11 +66,11 @@ nav:
       - Errors: reference/errors.md
   - Scope: scope.md
   - Upgrading from 0.1.x: upgrading.md
-  - Changelog: https://github.com/ochotzas/promptkit/blob/main/CHANGELOG.md
+  - Changelog: https://github.com/ochotzas/promptkit-core/blob/main/CHANGELOG.md
 
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/ochotzas/promptkit
+      link: https://github.com/ochotzas/promptkit-core
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/promptkit-core/

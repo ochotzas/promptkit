@@ -80,12 +80,14 @@ From Python, skip both and hand over a model:
 from pydantic import BaseModel
 from promptkit import run_structured
 
+
 class Invoice(BaseModel):
     number: str
     total: float
 
+
 result = run_structured(prompt, {"document": text}, engine, output_model=Invoice)
-result.value.total   # a float, and your type checker knows it
+result.value.total  # a float, and your type checker knows it
 ```
 
 This is the recommended path for typed applications. No string-based schema can give you

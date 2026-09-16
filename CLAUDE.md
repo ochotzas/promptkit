@@ -40,7 +40,7 @@ type-string language, tool calling).
 | `promptkit/core/registry.py` | Directory-backed, namespaced prompt registry |
 | `promptkit/core/lint.py` | Lint rules PK001-PK009 |
 | `examples/` | Runnable YAML prompts and a demo script |
-| `docs/` | MkDocs Material, deployed to https://promptkit.ochotzas.com/ |
+| `docs/` | MkDocs Material, deployed to https://promptkit-core.ochotzas.com/ |
 | `benchmarks/` | pytest-benchmark suites, run in CI |
 | `promptkit/telemetry/` | OpenTelemetry listener behind the `otel` extra |
 | `promptkit/codemod.py` | 0.1.x to 1.0 upgrade tool |
@@ -199,7 +199,7 @@ cassette miss, so an offline run needs no credentials. Keep it that way.
 
 ## Docs site
 
-Published at **promptkit.ochotzas.com** (GitHub Pages with a custom domain).
+Published at **promptkit-core.ochotzas.com** (GitHub Pages with a custom domain).
 `docs/CNAME` must stay in the repo or the domain drops on deploy.
 
 The prompt JSON Schema has two copies on purpose: `promptkit/schemas/prompt.schema.json`

@@ -18,7 +18,7 @@ the escape hatches PromptKit provides for reaching the provider directly.
 ## Setup
 
 ```bash
-git clone https://github.com/ochotzas/promptkit.git
+git clone https://github.com/ochotzas/promptkit-core.git
 cd promptkit
 make install-dev
 ```

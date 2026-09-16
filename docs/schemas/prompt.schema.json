@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://promptkit.ochotzas.com/schemas/prompt.schema.json",
+  "$id": "https://promptkit-core.ochotzas.com/schemas/prompt.schema.json",
   "title": "PromptKit prompt file",
   "type": "object",
   "required": ["name", "description"],

@@ -5,9 +5,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please check [MIGRATION.md](https://github.com/ochotzas/promptkit/blob/main/MIGRATION.md) first — it may already be planned.
+        Please check [MIGRATION.md](https://github.com/ochotzas/promptkit-core/blob/main/MIGRATION.md) first — it may already be planned.
 
-        Permanently out of scope: tool/function calling, agent loops, conversation memory, and RAG. See the scope table in [ARCHITECTURE.md](https://github.com/ochotzas/promptkit/blob/main/ARCHITECTURE.md).
+        Permanently out of scope: tool/function calling, agent loops, conversation memory, and RAG. See the scope table in [ARCHITECTURE.md](https://github.com/ochotzas/promptkit-core/blob/main/ARCHITECTURE.md).
   - type: textarea
     id: problem
     attributes:

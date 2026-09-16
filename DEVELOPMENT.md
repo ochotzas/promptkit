@@ -51,7 +51,7 @@ promptkit/
 ├── utils/          token counting, logging
 └── cli/            Typer app; one module per command under cli/commands/
 benchmarks/         pytest-benchmark suites, run in CI
-docs/               MkDocs Material, deployed to promptkit.ochotzas.com
+docs/               MkDocs Material, deployed to promptkit-core.ochotzas.com
 scripts/            maintenance scripts (pricing refresh)
 tests/              outside the package, not shipped in the wheel
 ```
