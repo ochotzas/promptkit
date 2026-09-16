@@ -1,0 +1,45 @@
+name: Pricing
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    name: Refresh the pricing snapshot
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Refresh
+        run: python scripts/refresh_pricing.py | tee refresh.log
+      - name: Summarise
+        run: |
+          {
+            echo '### Model pricing refresh'
+            echo
+            echo '```'
+            cat refresh.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add-paths: promptkit/data/pricing.json
+          branch: chore/pricing-refresh
+          delete-branch: true
+          commit-message: "chore(pricing): refresh the model pricing snapshot"
+          title: "chore(pricing): refresh the model pricing snapshot"
+          body-file: refresh.log
+          labels: pricing, automated

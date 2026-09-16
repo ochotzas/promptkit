@@ -1,122 +1,156 @@
-"""
-YAML prompt loader for loading prompts from files.
-
-This module provides functionality to load prompt definitions
-from YAML files and convert them into Prompt objects.
-"""
+from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 from yaml.loader import SafeLoader
 
-from promptkit.core.prompt import Prompt
+from promptkit.core.compiler import PromptCompiler
+from promptkit.core.prompt import Prompt, build_prompt
+from promptkit.core.template import ConfinedLoader, resolve_dependencies
+from promptkit.errors import PromptNotFoundError, PromptParseError
+
+YAML_SUFFIXES = {".yaml", ".yml"}
+REQUIRED_FIELDS = ("name", "description")
+CONTENT_FIELDS = ("template", "messages")
+KNOWN_FIELDS = frozenset(
+    {
+        "name",
+        "description",
+        "version",
+        "template",
+        "messages",
+        "input_schema",
+        "output_schema",
+        "metadata",
+    }
+)
 
 
-def load_prompt(file_path: str | Path) -> Prompt:
-    """
-    Load a prompt from a YAML file.
+def resolve_path(file_path: str | Path) -> Path:
+    path = Path(file_path)
 
-    Args:
-        file_path: Path to the YAML file containing the prompt definition.
-                  The .yaml extension is optional and will be added automatically if missing.
+    if path.suffix in YAML_SUFFIXES:
+        return path
 
-    Returns:
-        Prompt object created from the YAML file
+    return path.with_suffix(path.suffix + ".yaml")
 
-    Raises:
-        FileNotFoundError: If the file doesn't exist
-        yaml.YAMLError: If YAML parsing fails
-        ValidationError: If the prompt data is invalid
 
-    Example:
-        >>> prompt = load_prompt("examples/greet_user.yaml")
-        >>> # Or without extension:
-        >>> prompt = load_prompt("examples/greet_user")
-        >>> response = prompt.render({"name": "Alice"})
-    """
-    file_path = Path(file_path)
+def load_prompt(file_path: str | Path, root: str | Path | None = None) -> Prompt:
+    path = resolve_path(file_path)
 
-    if not file_path.suffix:
-        file_path = file_path.with_suffix(".yaml")
-    elif file_path.suffix not in {".yaml", ".yml"}:
-        file_path = file_path.with_suffix(file_path.suffix + ".yaml")
-
-    if not file_path.exists():
-        raise FileNotFoundError(f"Prompt file not found: {file_path}")
+    if not path.exists():
+        raise PromptNotFoundError(str(path))
 
     try:
-        with file_path.open("r", encoding="utf-8") as f:
+        with path.open("r", encoding="utf-8") as f:
             data = yaml.load(f, Loader=SafeLoader)
     except yaml.YAMLError as e:
-        raise yaml.YAMLError(f"Failed to parse YAML file {file_path}: {e}") from e
+        raise PromptParseError(
+            f"Failed to parse YAML file {path}: {e}", path=str(path)
+        ) from e
 
     if not isinstance(data, dict):
-        raise ValueError(f"YAML file must contain a dictionary, got {type(data)}")
-
-    return _create_prompt_from_dict(data, file_path)
-
-
-def _create_prompt_from_dict(data: Dict[str, Any], file_path: Path) -> Prompt:
-    """
-    Create a Prompt object from a dictionary loaded from YAML.
-
-    Args:
-        data: Dictionary containing prompt data
-        file_path: Path to the original file (for error reporting)
-
-    Returns:
-        Prompt object
-    """
-    required_fields = {"name", "description", "template"}
-    missing_fields = required_fields - set(data.keys())
-
-    if missing_fields:
-        raise ValueError(
-            f"Missing required fields in {file_path}: {', '.join(missing_fields)}"
+        raise PromptParseError(
+            f"Prompt file {path} must contain a mapping, got {type(data).__name__}",
+            path=str(path),
         )
 
-    # Ensure input_schema is present and is a dictionary
-    if "input_schema" not in data:
-        data["input_schema"] = {}
-    elif not isinstance(data["input_schema"], dict):
-        raise ValueError(
-            f"input_schema must be a dictionary in {file_path}, "
-            f"got {type(data['input_schema'])}"
-        )
+    prompt = _from_mapping(data, path)
+    template_root = Path(root) if root is not None else path.parent
 
+    return attach_dependencies(prompt, template_root)
+
+
+def loads_prompt(text: str, source: str = "<string>") -> Prompt:
     try:
-        return Prompt(**data)
-    except Exception as e:
-        raise ValueError(f"Failed to create prompt from {file_path}: {e}") from e
+        data = yaml.load(text, Loader=SafeLoader)
+    except yaml.YAMLError as e:
+        raise PromptParseError(f"Failed to parse YAML: {e}", path=source) from e
+
+    if not isinstance(data, dict):
+        raise PromptParseError(
+            f"Prompt must be a mapping, got {type(data).__name__}", path=source
+        )
+
+    return _from_mapping(data, Path(source))
+
+
+def _from_mapping(data: dict[str, Any], path: Path) -> Prompt:
+    missing = [field for field in REQUIRED_FIELDS if field not in data]
+
+    if not any(field in data for field in CONTENT_FIELDS):
+        missing.append("template")
+
+    if missing:
+        raise PromptParseError(
+            f"Missing required fields in {path}: {', '.join(missing)}",
+            path=str(path),
+            missing_fields=missing,
+        )
+
+    schema = data.get("input_schema")
+
+    if schema is not None and not isinstance(schema, dict):
+        raise PromptParseError(
+            f"input_schema must be a mapping in {path}, got {type(schema).__name__}",
+            path=str(path),
+        )
+
+    payload = {k: v for k, v in data.items() if k in KNOWN_FIELDS}
+
+    if payload.get("input_schema") is None:
+        payload["input_schema"] = {}
+
+    return build_prompt(payload, str(path))
+
+
+def attach_dependencies(prompt: Prompt, root: Path) -> Prompt:
+    if not root.is_dir():
+        return prompt
+
+    loader = ConfinedLoader(root)
+    compiler = PromptCompiler(loader=loader)
+    sources = [m.template for m in prompt.messages]
+    dependencies = resolve_dependencies(compiler.env, sources, loader)
+
+    if not dependencies:
+        return prompt
+
+    return prompt.with_dependencies(dependencies).with_root(root)
 
 
 def save_prompt(prompt: Prompt, file_path: str | Path) -> None:
-    """
-    Save a prompt to a YAML file.
+    path = Path(file_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
 
-    Args:
-        prompt: Prompt object to save
-        file_path: Path where to save the YAML file
-
-    Raises:
-        OSError: If file writing fails
-    """
-    file_path = Path(file_path)
-
-    # Create parent directories if they don't exist
-    file_path.parent.mkdir(parents=True, exist_ok=True)
-
-    data = {
+    data: dict[str, Any] = {
         "name": prompt.name,
         "description": prompt.description,
-        "template": prompt.template,
-        "input_schema": prompt.input_schema,
+        "version": prompt.version,
     }
 
-    try:
-        with file_path.open("w", encoding="utf-8") as f:
-            yaml.dump(data, f, default_flow_style=False, sort_keys=False, indent=2)
-    except OSError as e:
-        raise OSError(f"Failed to save prompt to {file_path}: {e}") from e
+    if len(prompt.messages) == 1 and prompt.messages[0].role == "user":
+        data["template"] = prompt.messages[0].template
+    else:
+        data["messages"] = [
+            {"role": m.role, "template": m.template} for m in prompt.messages
+        ]
+
+    data["input_schema"] = prompt.input_schema
+
+    if prompt.output_schema is not None:
+        data["output_schema"] = prompt.output_schema
+
+    with path.open("w", encoding="utf-8") as f:
+        yaml.dump(data, f, default_flow_style=False, sort_keys=False, indent=2)
+
+
+__all__ = [
+    "attach_dependencies",
+    "load_prompt",
+    "loads_prompt",
+    "resolve_path",
+    "save_prompt",
+]

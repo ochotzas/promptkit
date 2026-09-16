@@ -1,6 +1,4 @@
-"""
-Entry point for running PromptKit as a module.
-"""
+"""Entry point for running PromptKit as a module."""
 
 from promptkit.cli.main import app
 

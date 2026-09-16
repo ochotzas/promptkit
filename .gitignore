@@ -41,6 +41,7 @@ htmlcov/
 .nox/
 .coverage
 .coverage.*
+.coverage*
 .cache
 nosetests.xml
 coverage.xml
@@ -150,3 +151,10 @@ temp_*.yaml
 docs/_build/
 docs/_static/
 docs/_templates/
+
+.claude/settings.local.json
+
+# MkDocs
+site/
+.benchmarks/
+benchmark.json

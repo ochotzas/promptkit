@@ -1,0 +1,35 @@
+name: Feature request
+description: Propose a capability for PromptKit
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check [MIGRATION.md](https://github.com/ochotzas/promptkit-core/blob/main/MIGRATION.md) first — it may already be planned.
+
+        Permanently out of scope: tool/function calling, agent loops, conversation memory, and RAG. See the scope table in [ARCHITECTURE.md](https://github.com/ochotzas/promptkit-core/blob/main/ARCHITECTURE.md).
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that PromptKit makes hard today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would the API or prompt file look like?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: I have read the scope table and this is not tool calling, agents, memory, or RAG.
+          required: true
