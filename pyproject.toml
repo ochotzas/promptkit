@@ -8,63 +8,160 @@ path = "promptkit/__init__.py"
 [project]
 name = "promptkit-core"
 dynamic = ["version"]
-description = "Structured Prompt Engineering for LLM Apps"
-authors = [{name="Olger Chotza", email="olgerdev@icloud.com"}]
+description = "Lint and test your LLM prompts before they reach production."
+keywords = ["llm", "prompt", "prompt-engineering", "ai", "openai", "ollama", "yaml", "jinja2"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+authors = [{name="Olger Chotza", email="me@ochotzas.com"}]
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.10"
 dependencies = [
     "pydantic>=2.5",
     "jinja2>=3.1",
-    "pyyaml>=6.0",
-    "httpx>=0.25",
-    "typer[all]>=0.9",
+    "pyyaml>=6.0.1",
+    "typer>=0.16.0",
     "rich>=13.0"
 ]
 
 [project.optional-dependencies]
+openai = ["openai>=1.40"]
+anthropic = ["anthropic>=0.34"]
+ollama = ["ollama>=0.3"]
+tokens = ["tiktoken>=0.7"]
+otel = ["opentelemetry-api>=1.20", "opentelemetry-sdk>=1.20"]
+all = [
+    "openai>=1.40",
+    "anthropic>=0.34",
+    "ollama>=0.3",
+    "tiktoken>=0.7",
+    "opentelemetry-api>=1.20",
+    "opentelemetry-sdk>=1.20",
+]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
-    "pytest-asyncio>=0.21",
-    "black>=23.0",
-    "isort>=5.12",
     "mypy>=1.5",
-    "ruff>=0.1.0",
+    "ruff>=0.6",
     "pre-commit>=3.0",
-    "types-PyYAML"
+    "types-PyYAML",
+    "openai>=1.40",
+    "anthropic>=0.34",
+    "ollama>=0.3",
+    "tiktoken>=0.7",
+    "opentelemetry-api>=1.20",
+    "opentelemetry-sdk>=1.20",
+    "mkdocs-material>=9.5",
+    "pytest-benchmark>=4.0"
 ]
 docs = [
-    "sphinx>=7.0.0",
-    "sphinx-rtd-theme>=2.0.0",
-    "myst-parser>=2.0.0",
-    "linkify-it-py>=2.0.0",
-    "sphinx-autobuild>=2021.3.14",
+    "mkdocs-material>=9.5",
+    "mkdocs>=1.6",
 ]
 
 [project.scripts]
 promptkit = "promptkit.cli.main:app"
 
+[project.entry-points.pytest11]
+promptkit = "promptkit.pytest_plugin"
+
+[project.entry-points."promptkit.engines"]
+openai = "promptkit.engines.openai:OpenAIEngine"
+anthropic = "promptkit.engines.anthropic:AnthropicEngine"
+ollama = "promptkit.engines.ollama:OllamaEngine"
+compatible = "promptkit.engines.compatible:CompatibleEngine"
+
 [project.urls]
 Homepage = "https://github.com/ochotzas/promptkit"
+Documentation = "https://promptkit.ochotzas.com/"
+Changelog = "https://github.com/ochotzas/promptkit/blob/main/CHANGELOG.md"
 Repository = "https://github.com/ochotzas/promptkit"
 Issues = "https://github.com/ochotzas/promptkit/issues"
 
-[tool.black]
+[tool.ruff]
 line-length = 88
-target-version = ['py310']
+target-version = "py310"
+src = ["promptkit", "tests"]
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
+[tool.ruff.lint]
+select = [
+    "A",
+    "B",
+    "C4",
+    "E",
+    "F",
+    "I",
+    "N",
+    "PT",
+    "RUF",
+    "S",
+    "SIM",
+    "UP",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"promptkit/types.py" = ["A005"]
+"promptkit/retry.py" = ["S311"]
+"scripts/refresh_pricing.py" = ["S310"]
+"promptkit/cli/*" = ["B008"]
+"promptkit/core/compiler.py" = ["S701"]
+"tests/*" = ["S101", "S105", "S106", "S314", "S603"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["promptkit"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+
+[tool.ruff.format]
+docstring-code-format = false
 
 [tool.mypy]
 python_version = "3.10"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
+files = ["promptkit", "tests", "scripts"]
+strict = true
+warn_unreachable = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["promptkit"]
+artifacts = [
+    "promptkit/py.typed",
+    "promptkit/schemas/*.json",
+    "promptkit/data/*.json",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["promptkit", "tests", "examples", "README.md", "LICENSE", "CHANGELOG.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "bench_*.py"]
+addopts = "--strict-markers --strict-config"
+filterwarnings = [
+    "error",
+    "ignore:'click\\.utils\\.:DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["promptkit"]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "\\.\\.\\.",
+]

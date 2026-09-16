@@ -1,0 +1,17 @@
+cases:
+  - name: mentions_the_product
+    inputs:
+      product: Acme Cloud
+      message: My invoice looks wrong.
+      order_id: A-1042
+    assert:
+      - contains: Acme Cloud
+      - max_tokens: 400
+
+  - name: handles_a_missing_order_id
+    inputs:
+      product: Acme Cloud
+      message: I cannot log in.
+    assert:
+      - not_contains: order id
+      - max_latency: 30

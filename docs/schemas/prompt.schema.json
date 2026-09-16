@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://promptkit.ochotzas.com/schemas/prompt.schema.json",
+  "title": "PromptKit prompt file",
+  "type": "object",
+  "required": ["name", "description"],
+  "anyOf": [
+    { "required": ["template"] },
+    { "required": ["messages"] }
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the prompt."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what the prompt does."
+    },
+    "version": {
+      "type": "string",
+      "default": "0.1.0",
+      "description": "Advisory version for humans. Identity is the fingerprint, not this."
+    },
+    "template": {
+      "type": "string",
+      "description": "Single Jinja2 template, loaded as one user message. Legacy form; prefer 'messages'."
+    },
+    "messages": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ordered message templates.",
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "required": ["template"],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": ["system", "user", "assistant"],
+                "default": "user"
+              },
+              "template": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "maxProperties": 1,
+            "properties": {
+              "system": { "type": "string" },
+              "user": { "type": "string" },
+              "assistant": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "input_schema": {
+      "type": "object",
+      "description": "Either a mapping of field name to type string (str, int, float, bool, list, dict, optionally suffixed with ' | None'), or a JSON Schema object.",
+      "additionalProperties": true
+    },
+    "output_schema": {
+      "type": "object",
+      "description": "JSON Schema describing the expected model output. Must be an object schema.",
+      "additionalProperties": true
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Non-executable context. Never changes rendering behaviour.",
+      "properties": {
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "author": { "type": "string" },
+        "model": { "type": "string" },
+        "temperature": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

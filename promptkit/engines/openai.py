@@ -1,226 +1,296 @@
-"""OpenAI engine implementation."""
+from __future__ import annotations
 
-import json
-from typing import Any, Optional
+from collections.abc import AsyncIterator, Iterator
+from typing import Any, ClassVar
 
-import httpx
-
-from promptkit.engines.base import BaseEngine, EngineError
+from promptkit.engines._sdk import require
+from promptkit.engines.base import BaseEngine
+from promptkit.errors import (
+    AuthenticationError,
+    ContextLengthError,
+    EngineError,
+    ModelNotFoundError,
+    ProviderError,
+    RateLimitError,
+)
+from promptkit.retry import RetryPolicy
+from promptkit.types import Capabilities, Chunk, Completion, Message, Usage
 from promptkit.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
+EXTRA = "openai"
+MODULE = "openai"
+DEFAULT_MODEL = "gpt-4o-mini"
+DEFAULT_TIMEOUT = 60.0
+
+
+def build_params(
+    messages: list[Message],
+    model: str,
+    temperature: float | None = None,
+    max_tokens: int | None = None,
+    json_schema: dict[str, Any] | None = None,
+    **extra: Any,
+) -> dict[str, Any]:
+    params: dict[str, Any] = {
+        "model": model,
+        "messages": [{"role": m.role, "content": m.content} for m in messages],
+    }
+
+    if temperature is not None:
+        params["temperature"] = temperature
+
+    if max_tokens is not None:
+        params["max_tokens"] = max_tokens
+
+    if json_schema is not None:
+        params["response_format"] = {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "promptkit_output",
+                "schema": json_schema,
+                "strict": False,
+            },
+        }
+
+    params.update({k: v for k, v in extra.items() if v is not None})
+
+    return params
+
+
+def parse_usage(raw: Any) -> Usage:
+    usage = getattr(raw, "usage", None)
+
+    if usage is None:
+        return Usage(estimated=True)
+
+    return Usage(
+        prompt_tokens=int(getattr(usage, "prompt_tokens", 0) or 0),
+        completion_tokens=int(getattr(usage, "completion_tokens", 0) or 0),
+    )
+
+
+def parse_response(raw: Any, model: str) -> Completion:
+    choices = getattr(raw, "choices", None)
+
+    if not choices:
+        raise ProviderError("No choices returned from OpenAI API", model=model)
+
+    choice = choices[0]
+    content = getattr(choice.message, "content", None)
+
+    if content is None:
+        raise ProviderError("No content in OpenAI API response", model=model)
+
+    return Completion(
+        text=str(content),
+        model=str(getattr(raw, "model", model)),
+        usage=parse_usage(raw),
+        finish_reason=getattr(choice, "finish_reason", None),
+        raw=raw,
+    )
+
+
+def parse_chunk(raw: Any) -> Chunk | None:
+    choices = getattr(raw, "choices", None)
+
+    if not choices:
+        return None
+
+    choice = choices[0]
+    text = getattr(choice.delta, "content", None)
+    finish = getattr(choice, "finish_reason", None)
+
+    if text is None and finish is None:
+        return None
+
+    return Chunk(text=text or "", finish_reason=finish, raw=raw)
+
+
+def retry_after_of(error: Any) -> float | None:
+    headers = getattr(getattr(error, "response", None), "headers", None)
+
+    if headers is None:
+        return None
+
+    try:
+        return float(headers.get("retry-after"))
+    except (TypeError, ValueError):
+        return None
+
+
+def map_error(error: Exception, model: str) -> EngineError:
+    sdk = require(MODULE, EXTRA, "openai")
+    message = str(getattr(error, "message", None) or error)
+
+    if isinstance(error, sdk.AuthenticationError | sdk.PermissionDeniedError):
+        return AuthenticationError(message, model=model)
+
+    if isinstance(error, sdk.RateLimitError):
+        return RateLimitError(message, model=model, retry_after=retry_after_of(error))
+
+    if isinstance(error, sdk.NotFoundError):
+        return ModelNotFoundError(message, model=model)
+
+    if isinstance(error, sdk.BadRequestError):
+        if "context" in message.lower() and "length" in message.lower():
+            return ContextLengthError(message, model=model)
+
+        return ProviderError(message, model=model, status_code=400)
+
+    if isinstance(error, sdk.APIStatusError):
+        return ProviderError(
+            message, model=model, status_code=getattr(error, "status_code", None)
+        )
+
+    if isinstance(error, sdk.APIConnectionError | sdk.APITimeoutError):
+        return ProviderError(f"Could not reach the OpenAI API: {message}", model=model)
+
+    if isinstance(error, sdk.APIError):
+        return ProviderError(message, model=model)
+
+    raise error
+
 
 class OpenAIEngine(BaseEngine):
-    """OpenAI engine for GPT models."""
-
-    MODEL_PRICING = {
-        "gpt-3.5-turbo": (0.0010, 0.0020),
-        "gpt-3.5-turbo-1106": (0.0010, 0.0020),
-        "gpt-4": (0.03, 0.06),
-        "gpt-4-turbo": (0.01, 0.03),
-        "gpt-4-turbo-preview": (0.01, 0.03),
-        "gpt-4o": (0.005, 0.015),
-        "gpt-4o-mini": (0.00015, 0.0006),
-    }
+    capabilities: ClassVar[Capabilities] = Capabilities(
+        streaming=True, json_mode=True, system_role=True
+    )
+    extra: ClassVar[str] = EXTRA
+    default_base_url: ClassVar[str | None] = None
 
     def __init__(
         self,
-        api_key: str,
-        model: str = "gpt-4o-mini",
-        temperature: float = 0.7,
-        max_tokens: Optional[int] = None,
-        base_url: str = "https://api.openai.com/v1",
+        api_key: str | None = None,
+        model: str = DEFAULT_MODEL,
+        temperature: float | None = 0.7,
+        max_tokens: int | None = None,
+        base_url: str | None = None,
+        timeout: float = DEFAULT_TIMEOUT,
+        retry: RetryPolicy | None = None,
+        **client_options: Any,
     ) -> None:
-        """
-        Initialize the OpenAI engine.
-
-        Args:
-            api_key: OpenAI API key
-            model: OpenAI model name
-            temperature: Sampling temperature (0.0 to 2.0)
-            max_tokens: Maximum tokens to generate
-            base_url: API base URL (for compatible APIs)
-        """
-        super().__init__(model)
+        super().__init__(model, retry)
+        self.sdk = require(MODULE, self.extra, type(self).__name__)
         self.api_key = api_key
         self.temperature = temperature
         self.max_tokens = max_tokens
-        self.base_url = base_url.rstrip("/")
+        self.base_url = base_url or self.default_base_url
+        self.timeout = timeout
+        self._options = client_options
+        self._client: Any = None
+        self._aclient: Any = None
 
-        self._client = httpx.Client(
-            headers={
-                "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json",
-            },
-            timeout=60.0,
+    def _client_kwargs(self) -> dict[str, Any]:
+        kwargs: dict[str, Any] = {"timeout": self.timeout, "max_retries": 0}
+
+        if self.api_key is not None:
+            kwargs["api_key"] = self.api_key
+
+        if self.base_url is not None:
+            kwargs["base_url"] = self.base_url
+
+        kwargs.update(self._options)
+
+        return kwargs
+
+    @property
+    def client(self) -> Any:
+        if self._client is None:
+            self._client = self.sdk.OpenAI(**self._client_kwargs())
+
+        return self._client
+
+    @property
+    def aclient(self) -> Any:
+        if self._aclient is None:
+            self._aclient = self.sdk.AsyncOpenAI(**self._client_kwargs())
+
+        return self._aclient
+
+    def _params(self, messages: list[Message], **options: Any) -> dict[str, Any]:
+        return build_params(
+            messages,
+            options.pop("model", self.model),
+            options.pop("temperature", self.temperature),
+            options.pop("max_tokens", self.max_tokens),
+            options.pop("json_schema", None),
+            **options,
         )
 
-    def generate(self, prompt: str) -> str:
-        """
-        Generate a response using OpenAI's chat completions API.
+    def _complete(self, messages: list[Message], **options: Any) -> Completion:
+        params = self._params(messages, **options)
+        logger.debug(f"Calling OpenAI chat completions with model {self.model}")
 
-        Args:
-            prompt: The prompt text to send to the model
-
-        Returns:
-            The generated response text
-
-        Raises:
-            EngineError: If the API request fails
-        """
         try:
-            payload = {
-                "model": self.model,
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": self.temperature,
-            }
-
-            if self.max_tokens:
-                payload["max_tokens"] = self.max_tokens
-
-            logger.debug(f"Sending request to OpenAI API with model {self.model}")
-
-            response = self._client.post(
-                f"{self.base_url}/chat/completions",
-                json=payload,
-            )
-
-            if response.status_code != 200:
-                error_detail = response.text
-                try:
-                    error_data = response.json()
-                    error_detail = error_data.get("error", {}).get(
-                        "message", error_detail
-                    )
-                except json.JSONDecodeError:
-                    pass
-
-                raise EngineError(
-                    f"OpenAI API error (status {response.status_code}): {error_detail}"
-                )
-
-            data = response.json()
-
-            if "choices" not in data or not data["choices"]:
-                raise EngineError("No choices returned from OpenAI API")
-
-            content: str = data["choices"][0]["message"]["content"]
-
-            if content is None:
-                raise EngineError("No content in OpenAI API response")
-
-            logger.debug(f"Received response of length {len(content)}")
-            return content
-
-        except httpx.RequestError as e:
-            raise EngineError(f"Request to OpenAI API failed: {e}") from e
-        except KeyError as e:
-            raise EngineError(
-                f"Unexpected OpenAI API response format: missing {e}"
-            ) from e
+            raw = self.client.chat.completions.create(**params)
         except Exception as e:
-            raise EngineError(f"Unexpected error calling OpenAI API: {e}") from e
+            raise map_error(e, self.model) from e
 
-    async def generate_async(self, prompt: str) -> str:
-        """
-        Asynchronously generate a response using OpenAI's API.
+        return parse_response(raw, self.model)
 
-        Args:
-            prompt: The prompt text to send to the model
+    async def _acomplete(self, messages: list[Message], **options: Any) -> Completion:
+        params = self._params(messages, **options)
+        logger.debug(f"Calling OpenAI chat completions async with model {self.model}")
 
-        Returns:
-            The generated response text
-
-        Raises:
-            EngineError: If the API request fails
-        """
         try:
-            payload = {
-                "model": self.model,
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": self.temperature,
-            }
-
-            if self.max_tokens:
-                payload["max_tokens"] = self.max_tokens
-
-            logger.debug(f"Sending async request to OpenAI API with model {self.model}")
-
-            async with httpx.AsyncClient(
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                },
-                timeout=60.0,
-            ) as client:
-                response = await client.post(
-                    f"{self.base_url}/chat/completions",
-                    json=payload,
-                )
-
-            if response.status_code != 200:
-                error_detail = response.text
-                try:
-                    error_data = response.json()
-                    error_detail = error_data.get("error", {}).get(
-                        "message", error_detail
-                    )
-                except json.JSONDecodeError:
-                    pass
-
-                raise EngineError(
-                    f"OpenAI API error (status {response.status_code}): {error_detail}"
-                )
-
-            data = response.json()
-            content: str = data["choices"][0]["message"]["content"]
-
-            if content is None:
-                raise EngineError("No content in OpenAI API response")
-
-            logger.debug(f"Received async response of length {len(content)}")
-            return content
-
-        except httpx.RequestError as e:
-            raise EngineError(f"Async request to OpenAI API failed: {e}") from e
+            raw = await self.aclient.chat.completions.create(**params)
         except Exception as e:
-            raise EngineError(f"Unexpected error in async OpenAI API call: {e}") from e
+            raise map_error(e, self.model) from e
 
-    def estimate_cost(self, input_tokens: int, output_tokens: int) -> Optional[float]:
-        """
-        Estimate the cost for the given token counts using OpenAI pricing.
+        return parse_response(raw, self.model)
 
-        Args:
-            input_tokens: Number of input tokens
-            output_tokens: Number of output tokens
+    def stream(self, messages: str | list[Message], **options: Any) -> Iterator[Chunk]:
+        from promptkit.types import as_messages
 
-        Returns:
-            Estimated cost in USD, or None if model pricing is unknown
-        """
-        if self.model not in self.MODEL_PRICING:
-            return None
+        params = self._params(as_messages(messages), **options)
 
-        input_price, output_price = self.MODEL_PRICING[self.model]
+        try:
+            events = self.client.chat.completions.create(stream=True, **params)
 
-        input_cost = (input_tokens / 1000) * input_price
-        output_cost = (output_tokens / 1000) * output_price
+            for raw in events:
+                chunk = parse_chunk(raw)
 
-        return input_cost + output_cost
+                if chunk is not None:
+                    yield chunk
+        except Exception as e:
+            raise map_error(e, self.model) from e
+
+    async def astream(
+        self, messages: str | list[Message], **options: Any
+    ) -> AsyncIterator[Chunk]:
+        from promptkit.types import as_messages
+
+        params = self._params(as_messages(messages), **options)
+
+        try:
+            events = await self.aclient.chat.completions.create(stream=True, **params)
+
+            async for raw in events:
+                chunk = parse_chunk(raw)
+
+                if chunk is not None:
+                    yield chunk
+        except Exception as e:
+            raise map_error(e, self.model) from e
 
     def get_model_info(self) -> dict[str, Any]:
-        """Get information about the current OpenAI model."""
-        info = super().get_model_info()
-        info.update(
-            {
-                "temperature": self.temperature,
-                "max_tokens": self.max_tokens,
-                "base_url": self.base_url,
-            }
-        )
-        return info
+        return {
+            **super().get_model_info(),
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "base_url": self.base_url,
+        }
 
-    def __del__(self) -> None:
-        """Clean up the HTTP client when the engine is destroyed."""
-        if hasattr(self, "_client"):
+    def close(self) -> None:
+        if self._client is not None:
             self._client.close()
+            self._client = None
+
+    async def aclose(self) -> None:
+        self.close()
+
+        if self._aclient is not None:
+            await self._aclient.close()
+            self._aclient = None

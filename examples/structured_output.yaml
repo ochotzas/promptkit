@@ -1,0 +1,28 @@
+name: extract_invoice
+description: Extracts structured invoice fields from raw text
+version: 1.0.0
+messages:
+  - role: system
+    template: Extract invoice fields. Return only the requested fields.
+  - role: user
+    template: "{{ document }}"
+input_schema:
+  document: str
+output_schema:
+  type: object
+  required: [invoice_number, total, currency]
+  properties:
+    invoice_number:
+      type: string
+    total:
+      type: number
+    currency:
+      type: string
+      enum: [USD, EUR, GBP]
+    line_items:
+      type: array
+      items:
+        type: object
+        properties:
+          description: { type: string }
+          amount: { type: number }

@@ -7,7 +7,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from promptkit.core.loader import load_prompt
 from promptkit.core.runner import run_prompt
-from promptkit.engines.ollama import OllamaEngine
 from promptkit.engines.openai import OpenAIEngine
 from promptkit.utils.tokens import estimate_cost, estimate_tokens, format_cost
 

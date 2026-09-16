@@ -1,0 +1,23 @@
+name: support_reply
+description: Drafts a customer support reply in the shared house style
+version: 1.0.0
+messages:
+  - role: system
+    template: |
+      You are a support agent for {{ product }}.
+      {% include '_partials/house_style.j2' %}
+  - role: user
+    template: |
+      A customer wrote:
+
+      {{ message }}
+
+      {% if order_id %}Their order id is {{ order_id }}.{% endif %}
+      Draft a reply.
+input_schema:
+  product: str
+  message: str
+  order_id: "str | None"
+metadata:
+  tags: [support, customer]
+  model: gpt-4o-mini

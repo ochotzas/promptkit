@@ -1,170 +1,205 @@
-<br/>
-<p align="center">
-  <h1 align="center">⚙️ PromptKit</h1>
-</p>
+<div align="center">
 
-<p align="center" style="font-size:1.15em;">
-  A production-grade library for structured LLM prompt engineering.
-  <br/>
-  <br/>
-  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnA2ZzlxYnIzaW53dDUyZnVlY3JkcG5qNnpsZHlvbmhnYmdpaHQ0bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPnAiaMCws8nOsE/giphy.gif" alt="Cat Typing on Computer" width="100" style="border-radius:7px;box-shadow:0 1px 4px #0001;opacity:0.85;margin-bottom:-6px;margin-top:6px;" />
-  <br/>
-  <a href="https://ochotzas.github.io/promptkit/" style="margin-top:2px;"><strong>Explore the docs »</strong></a>
-  <br/>
-  <br/>
-  <a href="https://github.com/ochotzas/promptkit/issues">Report Bug</a>
-  ·
-  <a href="https://github.com/ochotzas/promptkit/issues">Request Feature</a>
-</p>
+# ⚙️ PromptKit
 
-<p align="center">
-  <a href="https://pypi.org/project/promptkit-core/"> <img alt="PyPI" src="https://img.shields.io/pypi/v/promptkit-core.svg?style=flat-square"></a>
-  <a href="https://img.shields.io/badge/python-%3E%3D3.10-blue"><img alt="PyPI - Python Version" src="https://img.shields.io/badge/python-%3E%3D3.10-blue?style=flat-square"></a>
-  <a href="https://github.com/ochotzas/promptkit/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/ochotzas/promptkit/ci.yml?branch=main&style=flat-square&label=tests"></a>
-  <a href="https://github.com/ochotzas/promptkit/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/ochotzas/promptkit.svg?style=flat-square"></a>
-</p>
+**Lint and test your LLM prompts before they reach production.**
 
------
+A typo in a prompt is a bug. PromptKit catches it like one.
 
-## Why PromptKit?
+[![PyPI](https://img.shields.io/pypi/v/promptkit-core.svg?style=flat-square&color=4c1)](https://pypi.org/project/promptkit-core/)
+[![Python](https://img.shields.io/badge/python-3.10–3.13-blue?style=flat-square)](https://pypi.org/project/promptkit-core/)
+[![CI](https://img.shields.io/github/actions/workflow/status/ochotzas/promptkit/ci.yml?branch=main&style=flat-square&label=tests)](https://github.com/ochotzas/promptkit/actions/workflows/ci.yml)
+[![mypy strict](https://img.shields.io/badge/mypy-strict-2a6db2?style=flat-square)](https://mypy-lang.org/)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
-Managing prompts for Large Language Models can quickly become messy. Hardcoding prompts as f-strings mixes logic with presentation, lacks validation, and makes reuse difficult.
+[**Documentation**](https://promptkit.ochotzas.com/) · [Getting started](https://promptkit.ochotzas.com/getting-started/) · [Issues](https://github.com/ochotzas/promptkit/issues)
 
-**PromptKit** solves this by treating your prompts as structured, version-controlled assets. By defining prompts in YAML files, you get:
+</div>
 
-- **Clean Separation**: Prompt templates are separate from application code
-- **Safety & Reliability**: Built-in validation ensures prompts receive correct inputs
-- **Reusability**: Define a prompt once, use it anywhere
-- **Clarity**: Human-readable format anyone can understand
-
-## Features
-
-- 📝 **Declarative**: Define prompts in YAML with Jinja2 templating
-- 🔍 **Validation**: Pydantic-based input validation before rendering
-- 🏗️ **Engine Abstraction**: Supports OpenAI and Ollama
-- 💰 **Cost Estimation**: Estimate token counts and costs before execution
-- 🖥️ **CLI**: Render, run, lint, and inspect prompts from terminal
-- 🧪 **Typed**: Full type hints for IDE support
-
-## Quick Start
-
-### Installation
-
-```bash
-pip install promptkit-core
-```
-
-### Define a Prompt
-
-Create `greet.yaml`:
-
-```yaml
-name: greet
-description: Generates a personalized greeting
-template: |
-  Hello {{ name }}!
-  
-  {% if context %}
-  Context: {{ context }}
-  {% endif %}
-  
-  How can I help you today?
-
-input_schema:
-  name: str
-  context: "str | None"
-```
-
-### Use in Python
+<table>
+<tr><th width="50%">Prompts as f-strings</th><th width="50%">Prompts as data</th></tr>
+<tr><td valign="top">
 
 ```python
-from promptkit import load_prompt, run_prompt, OpenAIEngine
+prompt = f"""You are a support agent
+for {product}. Be concise.
 
-prompt = load_prompt("greet.yaml")
+Customer wrote: {message}
+"""
+if order_id:
+    prompt += f"Order: {order_id}"
 
-engine = OpenAIEngine(api_key="sk-...")
-
-response = run_prompt(prompt, {"name": "Alice"}, engine)
-print(response)
-```
-
-### Use the CLI
-
-```bash
-export OPENAI_API_KEY="sk-..."
-
-# Run the prompt
-promptkit run greet.yaml --name Alice
-
-# Render template without calling AI
-promptkit render greet.yaml --name Alice
-
-# Validate prompt structure
-promptkit lint greet.yaml
-
-# Get prompt information
-promptkit info greet.yaml
-
-# Estimate costs
-promptkit cost greet.yaml --model gpt-4 --name Alice
-```
-
-## Prompt Structure
-
-Every prompt YAML file contains:
-
-- `name`: Unique identifier
-- `description`: Human-readable description
-- `template`: Jinja2 template with variables
-- `input_schema`: Type definitions for inputs
-
-### Input Schema Types
-
-```yaml
-input_schema:
-  name: str              # Required string
-  age: int               # Required integer
-  score: float           # Required float
-  active: bool           # Required boolean
-  tags: list             # Required list
-  data: dict             # Required dictionary
-  email: "str | None"    # Optional string
-```
-
-## Engines
-
-### OpenAI
-
-```python
-from promptkit import OpenAIEngine
-
-engine = OpenAIEngine(
-    api_key="sk-...",
+msg = {"role": "user", "content": prompt}
+resp = client.chat.completions.create(
     model="gpt-4o-mini",
-    temperature=0.7,
-    max_tokens=1000
+    messages=[msg],
 )
+text = resp.choices[0].message.content
 ```
 
-### Ollama (Local)
+Logic tangled with copy. A typo in
+`{prodcut}` ships silently. No system
+role, no review, no tests, no idea what
+it costs until the invoice arrives.
+
+</td><td valign="top">
+
+```yaml
+name: support_reply
+description: Support reply, house style
+version: 1.0.0
+messages:
+  - role: system
+    template: |
+      You are a support agent for
+      {{ product }}.
+      {% include '_partials/style.j2' %}
+  - role: user
+    template: |
+      Customer wrote: {{ message }}
+input_schema:
+  product: str
+  message: str
+```
+
+Reviewable in a pull request. A typo is
+a **lint error**. Real roles, a shared
+house style, and `promptkit cost`
+before you spend anything.
+
+</td></tr>
+</table>
+
+## Install
+
+```bash
+pip install 'promptkit-core[openai]'      # or [anthropic] · [ollama] · [all]
+```
+
+The base install ships **no HTTP client and no provider SDK**. Loading, rendering,
+validation, composition, linting and cost estimation all work with nothing
+network-shaped in your dependency tree.
+
+## Catch the typo before you pay for it
+
+Fat-finger it — `{{ prodcut }}` in the template while the schema still says `product`.
+An f-string would ship that to production. Here it does not get past the gate:
+
+```console
+$ promptkit lint support_reply.yaml
+support_reply
+  PK001 'prodcut' is used but not declared (prodcut)
+  PK002 'product' is declared but never used (product)
+
+2 finding(s)
+```
+
+Exit code 1, so CI stops. Fix it, and the rest of the loop is free and offline:
+
+```console
+$ promptkit lint support_reply.yaml
+✓ support_reply
+
+$ promptkit render support_reply.yaml --set product=Acme --messages
+system
+You are a support agent for Acme.
+Answer in plain language. Prefer short sentences.
+
+user
+Customer wrote: placeholder
+
+$ promptkit cost support_reply.yaml --model gpt-4o-mini
+support_reply with gpt-4o-mini
+Input tokens: 21 (exact)
+Output tokens: 500 (assumed)
+Estimated cost: $0.000303
+```
+
+Anything you leave out is filled with a placeholder, so you can render and price a
+prompt before you have real inputs. Not one of those commands needed an API key.
+
+## From Python
 
 ```python
-from promptkit.engines import OllamaEngine
+from promptkit import load_prompt, run_prompt
+from promptkit.engines.openai import OpenAIEngine
 
-engine = OllamaEngine(
-    model="llama2",
-    temperature=0.7
-)
+prompt = load_prompt("support_reply.yaml")
+
+with OpenAIEngine() as engine:
+    completion = run_prompt(prompt, {"product": "Acme", "message": msg}, engine)
+
+completion.text  # the reply
+completion.usage.prompt_tokens  # 241, straight from the provider
+completion.usage.estimated  # False — measured, never quietly guessed
+engine.cost_of(completion)  # 8.895e-05
 ```
 
-## Documentation
+Need JSON back? Hand it a Pydantic model and get a validated object, with automatic
+re-prompting when the model gets it wrong:
 
-See the [documentation](https://ochotzas.github.io/promptkit/) for detailed guides and API reference.
+```python
+result = run_structured(prompt, inputs, engine, output_model=Invoice)
+result.value.total  # a float, and your type checker knows it
+```
 
-## Contributing
+## What you get
 
-Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+| | |
+| --- | --- |
+| **Catch it before you pay** | Nine lint rules with codes — undeclared variables, unused schema fields, unresolved includes. `--strict` and `--format json` for CI |
+| **Evals that gate a build** | `contains`, `regex`, `json_schema`, `max_cost`, `max_latency`, and an LLM `judge`. JUnit output, concurrent, non-zero on failure |
+| **Honest costing** | Token counts come from the provider. `Usage.estimated` says when a number was guessed, so a cost report can never quietly lie |
+| **One house style** | Share text across prompts with `{% include %}`. Edit the partial and every dependent prompt changes fingerprint, so caches invalidate correctly |
+| **A prompt is not code** | Templates render in a Jinja sandbox; includes resolve through a confined loader. Traversal, symlink escapes and `__class__` tricks are refused, with tests to prove it |
+| **Identity that means something** | Prompts are identified by a fingerprint over messages, schemas and resolved includes — not a version string someone forgot to bump |
+| **Providers, plugged in** | OpenAI, Anthropic, Ollama, and any OpenAI-compatible endpoint. One error hierarchy, so `except RateLimitError` means the same thing everywhere |
+| **Ship your own engine** | Register through the `promptkit.engines` entry point from your own package. No PR to this repo |
 
-## License
+## The CLI
 
-MIT License - see [LICENSE](LICENSE) for details.
+| | |
+| --- | --- |
+| `run` | Render and send. `--stream`, `--structured` |
+| `render` | Render locally. Free, offline, no key |
+| `lint` | Nine rules. `--strict`, `--format json` |
+| `test` | Run eval suites. `--format junit` |
+| `diff` | Compare two prompts by fingerprint |
+| `info` · `list` | Inspect one prompt, or a whole tree |
+| `cost` | Token counts and cost before you spend |
+| `init` · `engines` | Scaffold a prompt · see what's installed |
+
+Variables come from `--set key=value`, `--vars '{"json": true}'`, or `--vars-file`.
+`--set` coerces to the type your schema declares.
+
+## Not an agent framework
+
+Tool calling, agent loops, conversation memory and RAG are **permanently out of scope** —
+a boundary, not a gap. Nothing traps you: `engine.client` is the real SDK client and
+`completion.raw` the real provider response, so dropping down is one attribute away.
+
+## Coming from 0.1.x
+
+Your prompt files load unchanged — asserted per-file by the test suite. Most code needs
+two edits, and a codemod handles the mechanical ones:
+
+```bash
+python -m promptkit.codemod your_package/          # dry run, prints a diff
+python -m promptkit.codemod your_package/ --write  # apply it
+```
+
+Details in the [upgrade guide](https://promptkit.ochotzas.com/upgrading/).
+
+---
+
+<div align="center">
+
+**[promptkit.ochotzas.com](https://promptkit.ochotzas.com/)**
+
+[Prompt files](https://promptkit.ochotzas.com/guide/prompt-files/) · [Schemas](https://promptkit.ochotzas.com/guide/schemas/) · [Composition](https://promptkit.ochotzas.com/guide/composition/) · [Structured output](https://promptkit.ochotzas.com/guide/structured-output/) · [Evaluation](https://promptkit.ochotzas.com/guide/evaluation/) · [Writing an engine](https://promptkit.ochotzas.com/guide/custom-engines/)
+
+MIT licensed · [Contributing](CONTRIBUTING.md) · [Architecture](ARCHITECTURE.md)
+
+<sub>If PromptKit saves you a debugging session, a ⭐ helps others find it.</sub>
+
+</div>

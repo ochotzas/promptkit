@@ -1,0 +1,76 @@
+site_name: PromptKit
+site_description: Lint and test your LLM prompts before they reach production.
+site_url: https://promptkit.ochotzas.com/
+repo_url: https://github.com/ochotzas/promptkit
+repo_name: ochotzas/promptkit
+edit_uri: edit/dev/docs/
+copyright: MIT licensed
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - toc.follow
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Guide:
+      - Prompt files: guide/prompt-files.md
+      - Schemas: guide/schemas.md
+      - Composition: guide/composition.md
+      - Engines: guide/engines.md
+      - Structured output: guide/structured-output.md
+      - Evaluation: guide/evaluation.md
+      - Retry and caching: guide/retry-and-caching.md
+      - Events and observability: guide/observability.md
+      - Writing an engine: guide/custom-engines.md
+  - Reference:
+      - CLI: reference/cli.md
+      - Python API: reference/api.md
+      - Lint rules: reference/lint-rules.md
+      - Pricing: reference/pricing.md
+      - Errors: reference/errors.md
+  - Scope: scope.md
+  - Upgrading from 0.1.x: upgrading.md
+  - Changelog: https://github.com/ochotzas/promptkit/blob/main/CHANGELOG.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ochotzas/promptkit
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/promptkit-core/
