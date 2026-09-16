@@ -1,11 +1,18 @@
 from __future__ import annotations
 
+import os
 import socket
+from pathlib import Path
 from typing import Any
 
 import pytest
 
 ALLOWED_HOSTS = {"127.0.0.1", "::1", "localhost"}
+
+
+def bump_mtime(path: Path, seconds: float = 10.0) -> None:
+    stamp = path.stat().st_mtime + seconds
+    os.utime(path, (stamp, stamp))
 
 
 class NetworkBlockedError(RuntimeError):

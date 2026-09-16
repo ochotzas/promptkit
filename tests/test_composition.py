@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sys
-import time
 from pathlib import Path
 
 import pytest
@@ -16,6 +15,7 @@ from promptkit.core.template import (
     safe_join,
 )
 from promptkit.errors import TemplateError
+from tests.conftest import bump_mtime
 
 PROMPT_WITH_INCLUDE = """
 name: greet
@@ -196,8 +196,8 @@ class TestComposition:
 
     def test_editing_a_partial_changes_the_render(self, registry: Path) -> None:
         load_prompt(registry / "greet.yaml").render_messages({"name": "Ada"})
-        time.sleep(0.02)
         (registry / "_partials" / "tone.j2").write_text("Always be verbose.")
+        bump_mtime(registry / "_partials" / "tone.j2")
         clear_compilers()
         rendered = load_prompt(registry / "greet.yaml").render_messages({"name": "Ada"})
 

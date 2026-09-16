@@ -6,6 +6,7 @@ from typer.testing import CliRunner
 
 from promptkit.cli.commands.watch import check, prompts_in, snapshot
 from promptkit.cli.main import app
+from tests.conftest import bump_mtime
 
 runner = CliRunner()
 
@@ -32,13 +33,11 @@ class TestSnapshot:
         assert list(snapshot(target)) == [target]
 
     def test_detects_a_change(self, tmp_path: Path) -> None:
-        import time
-
         target = tmp_path / "a.yaml"
         target.write_text(CLEAN)
         before = snapshot(tmp_path)
-        time.sleep(0.02)
         target.write_text(CLEAN + "\n")
+        bump_mtime(target)
 
         assert snapshot(tmp_path) != before
 

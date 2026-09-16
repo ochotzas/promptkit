@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import re
-import time
 from pathlib import Path
 
 import pytest
 
 from promptkit.core.registry import PromptRegistry, to_identifier
 from promptkit.errors import PromptNotFoundError
+from tests.conftest import bump_mtime
 
 SIMPLE = (
     "name: {name}\ndescription: d\ntemplate: Hi {{{{ n }}}}\ninput_schema: {{n: str}}\n"
@@ -95,11 +95,11 @@ class TestCaching:
     def test_edit_invalidates_the_cache(self, tree: Path) -> None:
         registry = PromptRegistry(tree)
         before = registry.get("greet")
-        time.sleep(0.02)
         (tree / "greet.yaml").write_text(
             "name: greet\ndescription: changed\n"
             "template: Bye {{ n }}\ninput_schema: {n: str}\n"
         )
+        bump_mtime(tree / "greet.yaml")
         after = registry.get("greet")
 
         assert after is not before

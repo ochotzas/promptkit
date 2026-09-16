@@ -48,6 +48,9 @@ jobs:
   test:
     name: Test ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -108,7 +111,7 @@ jobs:
           print(p.render({'name': 'CI', 'context': 'base install'}))
           "
           promptkit lint "${{ github.workspace }}/examples/greet_user.yaml"
-          promptkit cost "${{ github.workspace }}/examples/greet_user.yaml" --name CI
+          promptkit cost "${{ github.workspace }}/examples/greet_user.yaml" --set name=CI
           promptkit engines
       - name: No provider SDK or HTTP client pulled in
         run: |
