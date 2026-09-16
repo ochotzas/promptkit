@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(python -m mypy:*)",
+      "Bash(python -m ruff:*)",
+      "Bash(python -m black:*)",
+      "Bash(python -m isort:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(rg:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)"
+    ],
+    "deny": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(twine upload:*)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}

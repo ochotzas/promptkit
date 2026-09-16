@@ -1,75 +1,94 @@
-"""Jinja2 template compiler."""
+from __future__ import annotations
 
-from typing import Any, Dict
+import hashlib
+from typing import Any
 
-from jinja2 import Environment, StrictUndefined, Template
-from jinja2.exceptions import TemplateError
+from jinja2 import BaseLoader, StrictUndefined, Template
+from jinja2 import TemplateError as JinjaTemplateError
+from jinja2.sandbox import SandboxedEnvironment
+
+from promptkit.errors import TemplateError
+
+MAX_CACHE_ENTRIES = 512
+
+
+def fingerprint(template_str: str) -> str:
+    return hashlib.sha256(template_str.encode("utf-8")).hexdigest()
 
 
 class PromptCompiler:
-    """
-    Handles Jinja2 template compilation and rendering for prompts.
-
-    Uses StrictUndefined to ensure all template variables are provided,
-    preventing silent failures from undefined variables.
-    """
-
-    def __init__(self) -> None:
-        """Initialize the compiler with a strict Jinja2 environment."""
-        self.env = Environment(
+    def __init__(
+        self,
+        cache_size: int = MAX_CACHE_ENTRIES,
+        loader: BaseLoader | None = None,
+    ) -> None:
+        self.env = SandboxedEnvironment(
             undefined=StrictUndefined,
             trim_blocks=True,
             lstrip_blocks=True,
+            autoescape=False,
+            loader=loader,
         )
+        self.cache_size = cache_size
+        self._cache: dict[str, Template] = {}
 
     def compile_template(self, template_str: str) -> Template:
-        """
-        Compile a template string into a Jinja2 Template object.
+        key = fingerprint(template_str)
+        cached = self._cache.get(key)
 
-        Args:
-            template_str: The template string to compile
+        if cached is not None:
+            return cached
 
-        Returns:
-            Compiled Jinja2 template
-
-        Raises:
-            TemplateError: If template compilation fails
-        """
         try:
-            return self.env.from_string(template_str)
-        except TemplateError as e:
+            template = self.env.from_string(template_str)
+        except JinjaTemplateError as e:
             raise TemplateError(f"Template compilation failed: {e}") from e
 
-    def render_template(self, template: Template, variables: Dict[str, Any]) -> str:
-        """
-        Render a compiled template with the given variables.
+        if len(self._cache) >= self.cache_size:
+            self._cache.pop(next(iter(self._cache)), None)
 
-        Args:
-            template: Compiled Jinja2 template
-            variables: Variables to use in template rendering
+        self._cache[key] = template
 
-        Returns:
-            Rendered template string
+        return template
 
-        Raises:
-            TemplateError: If template rendering fails
-        """
+    def render_template(self, template: Template, variables: dict[str, Any]) -> str:
         try:
-            result: str = template.render(**variables)
-            return result
-        except TemplateError as e:
-            raise TemplateError(f"Template rendering failed: {e}") from e
+            return template.render(**variables)
+        except JinjaTemplateError as e:
+            raise TemplateError(
+                f"Template rendering failed: {e}", template_name=template.name
+            ) from e
 
-    def render_string(self, template_str: str, variables: Dict[str, Any]) -> str:
-        """
-        Compile and render a template string in one step.
+    def render_string(self, template_str: str, variables: dict[str, Any]) -> str:
+        return self.render_template(self.compile_template(template_str), variables)
 
-        Args:
-            template_str: The template string to compile and render
-            variables: Variables to use in template rendering
+    def clear_cache(self) -> None:
+        self._cache.clear()
 
-        Returns:
-            Rendered template string
-        """
-        template = self.compile_template(template_str)
-        return self.render_template(template, variables)
+    def cache_size_now(self) -> int:
+        return len(self._cache)
+
+
+default_compiler = PromptCompiler()
+
+_by_root: dict[str, PromptCompiler] = {}
+
+
+def compiler_for(root: str | None) -> PromptCompiler:
+    if root is None:
+        return default_compiler
+
+    cached = _by_root.get(root)
+
+    if cached is None:
+        from promptkit.core.template import ConfinedLoader
+
+        cached = PromptCompiler(loader=ConfinedLoader(root))
+        _by_root[root] = cached
+
+    return cached
+
+
+def clear_compilers() -> None:
+    _by_root.clear()
+    default_compiler.clear_cache()
